@@ -1,0 +1,25 @@
+{
+  "name": "dollartracker-native",
+  "version": "4.0.0-alpha.1",
+  "private": true,
+  "description": "Local-first USD/KHR money tracker for PWA and native iOS via Capacitor.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "http-server www -p 4173 -c-1",
+    "verify": "node scripts/verify.mjs",
+    "cap:sync": "cap sync",
+    "cap:copy": "cap copy",
+    "ios:add": "cap add ios",
+    "ios:open": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.4.2",
+    "@capacitor/ios": "8.4.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.4.2",
+    "http-server": "14.1.1"
+  }
+}
