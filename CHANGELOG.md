@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.0.0-alpha.1
+## 4.0.0-alpha.2
 
 - Established the native-ready repository structure.
 - Added Capacitor 8 configuration without generating iOS on Windows.

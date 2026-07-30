@@ -2388,7 +2388,7 @@ html.thermal-lite .selection-summary-bar{animation:none !important;filter:none !
 
 
 /* ===========================================================================
-   v4.0.0-alpha.1 — Form consistency + keyboard-safe floating Save
+   v4.0.0-alpha.2 — Form consistency + keyboard-safe floating Save
 =========================================================================== */
 :root{
   --visual-viewport-top:0px;
@@ -2433,3 +2433,121 @@ body.keyboard-open .floating-save-button{
   body.keyboard-open .floating-save-button,
   body.keyboard-open .bottom-nav{transition:none !important;}
 }
+
+
+/* ===========================================================================
+   v4.0.0-alpha.2 — Glass Intensity graphics setting
+=========================================================================== */
+:root{
+  --dt-glass-strength:.72;
+  --dt-glass-panel-a1:.561;
+  --dt-glass-panel-a2:.501;
+  --dt-glass-bar-a1:.644;
+  --dt-glass-bar-a2:.570;
+  --dt-glass-control-a:.130;
+  --dt-glass-blur:19px;
+  --dt-glass-bar-blur:21px;
+  --dt-glass-control-blur:11px;
+  --dt-glass-saturation:155%;
+  --dt-glass-shadow-a:.186;
+  --dt-glass-edge-a:.138;
+  --dt-hero-glow-display:block;
+  --dt-hero-glow-opacity:.190;
+  --dt-hero-glow-blur:59px;
+}
+.glass-intensity-control{display:grid;gap:10px;margin-top:18px;padding:14px;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.055);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.glass-control-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.glass-control-head strong{font-size:13px;font-weight:950;color:var(--text);white-space:nowrap}
+.glass-range-shell{position:relative;height:34px;display:grid;align-items:center}
+.glass-range-shell:before{content:"";position:absolute;left:0;right:0;height:10px;border-radius:999px;background:rgba(255,255,255,.10);box-shadow:inset 0 1px 2px rgba(0,0,0,.20)}
+.glass-range-fill{position:absolute;left:0;height:10px;border-radius:999px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));box-shadow:0 0 22px color-mix(in srgb,var(--accent-1) 34%,transparent);width:72%;pointer-events:none}
+.glass-range{position:relative;width:100%;height:34px;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;appearance:none;-webkit-appearance:none;cursor:pointer}
+.glass-range::-webkit-slider-runnable-track{height:10px;background:transparent;border-radius:999px}
+.glass-range::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-9px;border-radius:999px;background:linear-gradient(135deg,#fff,rgba(255,255,255,.70));border:1px solid rgba(255,255,255,.60);box-shadow:0 8px 18px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.85)}
+.glass-range::-moz-range-track{height:10px;background:transparent;border-radius:999px}
+.glass-range::-moz-range-thumb{width:28px;height:28px;border-radius:999px;background:linear-gradient(135deg,#fff,rgba(255,255,255,.70));border:1px solid rgba(255,255,255,.60);box-shadow:0 8px 18px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.85)}
+.glass-range-labels{display:grid;grid-template-columns:repeat(3,1fr);font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.glass-range-labels span:nth-child(2){text-align:center}.glass-range-labels span:last-child{text-align:right}
+
+html[data-theme=dark] .glass,
+html[data-theme=dark] .glass-lite,
+html[data-theme=dark] .glass-strong,
+html[data-theme=dark] .quick-card,
+html[data-theme=dark] .record-card-body,
+html[data-theme=dark] .profile-manager-row,
+html[data-theme=dark] .selection-summary-bar,
+html[data-theme=dark] .profile-sheet,
+html[data-theme=dark] .summary-sheet,
+html[data-theme=dark] .edit-sheet,
+html[data-theme=dark] .calculator-sheet,
+html[data-theme=dark] .filter-sheet,
+html[data-theme=dark] .quick-add-sheet,
+html[data-theme=dark] .choice-sheet{
+  background:linear-gradient(155deg, rgb(33 39 50 / var(--dt-glass-panel-a1)), rgb(21 25 33 / var(--dt-glass-panel-a2)))!important;
+  backdrop-filter:blur(var(--dt-glass-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-blur)) saturate(var(--dt-glass-saturation))!important;
+  border-color:rgb(255 255 255 / var(--dt-glass-edge-a))!important;
+  box-shadow:0 12px 30px rgb(0 0 0 / var(--dt-glass-shadow-a)), inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+html[data-theme=dark] .topbar,
+html[data-theme=dark] .bottom-nav{
+  background:linear-gradient(155deg, rgb(38 44 56 / var(--dt-glass-bar-a1)), rgb(24 29 37 / var(--dt-glass-bar-a2)))!important;
+  backdrop-filter:blur(var(--dt-glass-bar-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-bar-blur)) saturate(var(--dt-glass-saturation))!important;
+  border-color:rgb(255 255 255 / var(--dt-glass-edge-a))!important;
+}
+html[data-theme=dark] input,
+html[data-theme=dark] textarea,
+html[data-theme=dark] select,
+html[data-theme=dark] .amount-wrap,
+html[data-theme=dark] .calc-display-shell,
+html[data-theme=dark] .choice-option,
+html[data-theme=dark] .profile-option{
+  background:rgb(255 255 255 / var(--dt-glass-control-a))!important;
+  backdrop-filter:blur(var(--dt-glass-control-blur)) saturate(calc(var(--dt-glass-saturation) - 18%))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-control-blur)) saturate(calc(var(--dt-glass-saturation) - 18%))!important;
+  border-color:rgb(255 255 255 / calc(var(--dt-glass-edge-a) + .02))!important;
+}
+html[data-theme=dark] .balance-hero:after{
+  display:var(--dt-hero-glow-display)!important;
+  opacity:var(--dt-hero-glow-opacity)!important;
+  filter:blur(var(--dt-hero-glow-blur))!important;
+}
+html[data-glass-level=cool] .orb,
+html[data-glass-level=cool] .aurora-bg{display:none!important}
+html[data-glass-level=luxe] .glass-intensity-control{background:rgba(255,255,255,.08)}
+html[data-glass-level=luxe] .balance-hero:before{opacity:1!important}
+html[data-glass-level=cool] .balance-hero:before{opacity:.45!important}
+
+/* Thermal-lite now follows the slider instead of forcing one fixed style. */
+html.thermal-lite[data-theme=dark] .glass,
+html.thermal-lite[data-theme=dark] .glass-lite,
+html.thermal-lite[data-theme=dark] .glass-strong,
+html.thermal-lite[data-theme=dark] .quick-card,
+html.thermal-lite[data-theme=dark] .record-card-body,
+html.thermal-lite[data-theme=dark] .selection-summary-bar,
+html.thermal-lite[data-theme=dark] .profile-sheet,
+html.thermal-lite[data-theme=dark] .summary-sheet,
+html.thermal-lite[data-theme=dark] .edit-sheet,
+html.thermal-lite[data-theme=dark] .calculator-sheet,
+html.thermal-lite[data-theme=dark] .filter-sheet,
+html.thermal-lite[data-theme=dark] .quick-add-sheet{
+  background:linear-gradient(155deg, rgb(33 39 50 / calc(var(--dt-glass-panel-a1) + .08)), rgb(20 24 31 / calc(var(--dt-glass-panel-a2) + .08)))!important;
+  backdrop-filter:blur(clamp(6px, calc(var(--dt-glass-blur) * .66), 16px)) saturate(clamp(115%, calc(var(--dt-glass-saturation) - 18%), 148%))!important;
+  -webkit-backdrop-filter:blur(clamp(6px, calc(var(--dt-glass-blur) * .66), 16px)) saturate(clamp(115%, calc(var(--dt-glass-saturation) - 18%), 148%))!important;
+}
+html.thermal-lite[data-theme=dark] .topbar,
+html.thermal-lite[data-theme=dark] .bottom-nav{
+  background:linear-gradient(155deg, rgb(38 44 56 / calc(var(--dt-glass-bar-a1) + .06)), rgb(23 28 35 / calc(var(--dt-glass-bar-a2) + .06)))!important;
+  backdrop-filter:blur(clamp(7px, calc(var(--dt-glass-bar-blur) * .62), 16px)) saturate(clamp(115%, calc(var(--dt-glass-saturation) - 18%), 148%))!important;
+  -webkit-backdrop-filter:blur(clamp(7px, calc(var(--dt-glass-bar-blur) * .62), 16px)) saturate(clamp(115%, calc(var(--dt-glass-saturation) - 18%), 148%))!important;
+}
+html.thermal-lite[data-glass-level=luxe] .balance-hero:after{display:block!important;opacity:calc(var(--dt-hero-glow-opacity) * .75)!important;filter:blur(clamp(38px, var(--dt-hero-glow-blur), 58px))!important}
+html.thermal-lite[data-glass-level=balanced] .balance-hero:after{display:block!important;opacity:calc(var(--dt-hero-glow-opacity) * .55)!important;filter:blur(38px)!important}
+html.thermal-lite[data-glass-level=cool] .balance-hero:after{display:none!important}
+
+body.keyboard-open html[data-theme=dark],
+body.keyboard-open .glass,
+body.keyboard-open .glass-lite,
+body.keyboard-open .glass-strong{will-change:auto!important}
+body.keyboard-open .amount-wrap,
+body.keyboard-open .floating-save-button{backdrop-filter:blur(8px) saturate(125%)!important;-webkit-backdrop-filter:blur(8px) saturate(125%)!important}

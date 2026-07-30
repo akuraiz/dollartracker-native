@@ -1,7 +1,7 @@
 
 "use strict";
 
-const APP_VERSION = "4.0.0-alpha.1";
+const APP_VERSION = "4.0.0-alpha.2";
 const RECORD_KEY = "dollarTracker.records.v3";
 const SETTINGS_KEY = "dollarTracker.settings.v3";
 const STATE_KEY = "dollarTracker.state.v3";
@@ -36,6 +36,7 @@ const defaultSettings = {
   language: "en",
   theme: "dark",
   themeTemplate: "mono",
+  glassIntensity: 72,
   displayCurrency: "USD",
   exchangeRate: 4000,
   lastBackupAt: "",
@@ -70,7 +71,7 @@ const I18N = {
     backupReminderTitle:"Backup Reminder", backupReminderText:"It has been a while since your last backup. Export one now so your records stay safe.", backupReminderNeverText:"You have records but no backup yet. Export one now so you can restore later.", dismiss:"Dismiss",
     exportBackup:"Export Backup JSON", exportCsv:"Export CSV", importBackup:"Import Backup JSON", safetyHabit:"Safety habit",
     safetyHint:"After adding records, export a backup and save it to iCloud Drive or Google Drive.", appearance:"Appearance", displayMode:"Display Mode",
-    dark:"Dark", light:"Light", themeTemplate:"Theme Template", coreThemes:"Core", signatureThemes:"Signature", monoTheme:"Silver", pinkTheme:"Pink", goldTheme:"Gold", skyTheme:"Sky", matchaTheme:"Matcha", sunsetTheme:"Sunset", lavenderTheme:"Lavender", christmasTheme:"Frost Pine", webTheme:"Web", symbioteTheme:"Symbiote", blushTheme:"Blush Pop", oceanTheme:"Ocean", pearlTheme:"Pearl", moneySettings:"Money Settings",
+    dark:"Dark", light:"Light", glassIntensity:"Glass Intensity", glassIntensityHint:"Lower = cooler. Higher = old premium glass, but can heat the phone faster.", glassCooler:"Cooler", glassBalanced:"Balanced", glassLuxe:"Luxe", themeTemplate:"Theme Template", coreThemes:"Core", signatureThemes:"Signature", monoTheme:"Silver", pinkTheme:"Pink", goldTheme:"Gold", skyTheme:"Sky", matchaTheme:"Matcha", sunsetTheme:"Sunset", lavenderTheme:"Lavender", christmasTheme:"Frost Pine", webTheme:"Web", symbioteTheme:"Symbiote", blushTheme:"Blush Pop", oceanTheme:"Ocean", pearlTheme:"Pearl", moneySettings:"Money Settings",
     exchangeRate:"Exchange Rate", exchangeRateHint:"Default: 1 USD = 4000៛", appName:"App Name", appNameHint:"Shown inside the app",
     saveSettings:"Save Settings", dangerZone:"Danger Zone", dangerHint:"Tap twice to clear all records.", clearAll:"Clear All Records",
     tapAgainClear:"Tap again to clear", record:"record", records:"records", noRecords:"No records here yet.", delete:"Delete",
@@ -100,7 +101,7 @@ const I18N = {
     never:"មិនទាន់មាន", backupReminderTitle:"រំលឹក Backup", backupReminderText:"បានយូរហើយតាំងពី Backup ចុងក្រោយ។ សូមនាំចេញ Backup ដើម្បីរក្សាកំណត់ត្រាឱ្យមានសុវត្ថិភាព។", backupReminderNeverText:"អ្នកមានកំណត់ត្រា ប៉ុន្តែមិនទាន់មាន Backup ទេ។ សូមនាំចេញ Backup ដើម្បីអាចស្ដារវិញពេលក្រោយ។", dismiss:"បិទ",
     exportBackup:"នាំចេញ Backup JSON", exportCsv:"នាំចេញ CSV", importBackup:"នាំចូល Backup JSON",
     safetyHabit:"ទម្លាប់សុវត្ថិភាព", safetyHint:"បន្ទាប់ពីបញ្ចូលកំណត់ត្រា សូមនាំចេញ Backup ហើយរក្សាទុកក្នុង iCloud Drive ឬ Google Drive។",
-    appearance:"រូបរាង", displayMode:"របៀបបង្ហាញ", dark:"ងងឹត", light:"ភ្លឺ", themeTemplate:"គំរូពណ៌", coreThemes:"មូលដ្ឋាន", signatureThemes:"ពិសេស", monoTheme:"Silver",
+    appearance:"រូបរាង", displayMode:"របៀបបង្ហាញ", dark:"ងងឹត", light:"ភ្លឺ", glassIntensity:"កម្រិតកញ្ចក់", glassIntensityHint:"ទាប = ត្រជាក់ជាង។ ខ្ពស់ = កញ្ចក់ស្អាតដូចចាស់ ប៉ុន្តែអាចក្តៅម៉ាស៊ីនលឿនជាង។", glassCooler:"ត្រជាក់", glassBalanced:"សមតុល្យ", glassLuxe:"ស្អាតបំផុត", themeTemplate:"គំរូពណ៌", coreThemes:"មូលដ្ឋាន", signatureThemes:"ពិសេស", monoTheme:"Silver",
     pinkTheme:"Pink", goldTheme:"Gold", skyTheme:"Sky", matchaTheme:"Matcha", sunsetTheme:"Sunset", lavenderTheme:"Lavender", christmasTheme:"Frost Pine", webTheme:"Web", symbioteTheme:"Symbiote", blushTheme:"Blush Pop", oceanTheme:"Ocean", pearlTheme:"Pearl", moneySettings:"ការកំណត់ទឹកប្រាក់", exchangeRate:"អត្រាប្តូរប្រាក់", exchangeRateHint:"លំនាំដើម៖ 1 USD = 4000៛",
     appName:"ឈ្មោះកម្មវិធី", appNameHint:"បង្ហាញនៅក្នុងកម្មវិធី", saveSettings:"រក្សាទុកការកំណត់", dangerZone:"តំបន់ប្រុងប្រយ័ត្ន",
     dangerHint:"ចុចពីរដងដើម្បីលុបកំណត់ត្រាទាំងអស់។", clearAll:"លុបកំណត់ត្រាទាំងអស់", tapAgainClear:"ចុចម្ដងទៀតដើម្បីលុប",
@@ -471,6 +472,26 @@ function resetCategoryRelatedData(allowedKeys = categoryKeys()) {
   settings.categoryBudgets = nextBudgets;
 }
 
+function clampGlassIntensity(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return defaultSettings.glassIntensity;
+  return Math.max(0, Math.min(100, Math.round(numeric)));
+}
+
+function glassLevelForIntensity(value) {
+  const intensity = clampGlassIntensity(value);
+  if (intensity < 35) return "cool";
+  if (intensity >= 78) return "luxe";
+  return "balanced";
+}
+
+function glassLabelForIntensity(value) {
+  const level = glassLevelForIntensity(value);
+  if (level === "cool") return tr("glassCooler");
+  if (level === "luxe") return tr("glassLuxe");
+  return tr("glassBalanced");
+}
+
 function sanitizeSettings(input = {}) {
   const source = input && typeof input === "object" ? input : {};
   const merged = { ...defaultSettings, ...source };
@@ -486,6 +507,7 @@ function sanitizeSettings(input = {}) {
   if (!["en", "km"].includes(merged.language)) merged.language = "en";
   if (!["dark", "light"].includes(merged.theme)) merged.theme = "dark";
   if (!["mono", "gold", "sky", "matcha", "sunset", "lavender", "christmas", "pink", "web", "symbiote", "blush", "ocean", "pearl"].includes(merged.themeTemplate)) merged.themeTemplate = "mono";
+  merged.glassIntensity = clampGlassIntensity(merged.glassIntensity);
   if (!merged.appName || merged.appName === "Wifey Money") merged.appName = "DollarTracker";
 
   const seedCategories = normalizeCategoryList(merged.categories);
@@ -1118,8 +1140,29 @@ const THEME_BG_COLORS = {
 function applyDocumentSettings() {
   document.documentElement.dataset.theme = settings.theme;
   document.documentElement.dataset.template = settings.themeTemplate;
+  document.documentElement.dataset.glassLevel = glassLevelForIntensity(settings.glassIntensity);
   document.documentElement.lang = settings.language;
   document.title = settings.appName || "DollarTracker";
+
+  const intensity = clampGlassIntensity(settings.glassIntensity);
+  const strength = intensity / 100;
+  const rootStyle = document.documentElement.style;
+
+  rootStyle.setProperty("--dt-glass-strength", strength.toFixed(2));
+  rootStyle.setProperty("--dt-glass-panel-a1", (0.82 - strength * 0.36).toFixed(3));
+  rootStyle.setProperty("--dt-glass-panel-a2", (0.76 - strength * 0.36).toFixed(3));
+  rootStyle.setProperty("--dt-glass-bar-a1", (0.86 - strength * 0.30).toFixed(3));
+  rootStyle.setProperty("--dt-glass-bar-a2", (0.80 - strength * 0.32).toFixed(3));
+  rootStyle.setProperty("--dt-glass-control-a", (0.18 - strength * 0.07).toFixed(3));
+  rootStyle.setProperty("--dt-glass-blur", `${Math.round(6 + strength * 18)}px`);
+  rootStyle.setProperty("--dt-glass-bar-blur", `${Math.round(8 + strength * 18)}px`);
+  rootStyle.setProperty("--dt-glass-control-blur", `${Math.round(4 + strength * 10)}px`);
+  rootStyle.setProperty("--dt-glass-saturation", `${Math.round(116 + strength * 54)}%`);
+  rootStyle.setProperty("--dt-glass-shadow-a", (0.10 + strength * 0.12).toFixed(3));
+  rootStyle.setProperty("--dt-glass-edge-a", (0.08 + strength * 0.08).toFixed(3));
+  rootStyle.setProperty("--dt-hero-glow-display", intensity < 22 ? "none" : "block");
+  rootStyle.setProperty("--dt-hero-glow-opacity", (0.06 + strength * 0.18).toFixed(3));
+  rootStyle.setProperty("--dt-hero-glow-blur", `${Math.round(30 + strength * 40)}px`);
 
   const palette = THEME_BG_COLORS[settings.themeTemplate] || THEME_BG_COLORS.mono;
   const themeColor = palette[settings.theme] || palette.dark;
@@ -1333,6 +1376,10 @@ function debounce(fn, delay = 180) {
 }
 
 const debouncedStateSave = debounce(saveState, 260);
+const debouncedGlassSettingsSave = debounce(() => {
+  saveSettings();
+  saveState();
+}, 420);
 
 const debouncedHistorySearchRender = debounce(() => {
   resetHistoryVisibleCount();
@@ -1483,7 +1530,7 @@ function translateUI() {
   const sort = $("#sortSelect"); if (sort) { sort.options[0].text = tr("newest"); sort.options[1].text = tr("oldest"); sort.options[2].text = tr("highest"); sort.options[3].text = tr("lowest"); }
   setText("backupReminderTitle", tr("backupReminderTitle")); setText("backupReminderExportBtn", tr("exportBackup")); setText("backupReminderDismissBtn", tr("dismiss"));
   setText("backupExportTitle", tr("backupExport")); setText("backupHintText", tr("backupHint")); setText("lastBackupLabel", tr("lastBackup")); setText("exportBackupBtn", tr("exportBackup")); setText("exportCsvBtn", tr("exportCsv")); setText("importBackupText", tr("importBackup")); setText("safetyHabitTitle", tr("safetyHabit")); setText("safetyHintText", tr("safetyHint"));
-  setText("appearanceTitle", tr("appearance")); setText("displayModeLabel", tr("displayMode")); setText("darkLabel", tr("dark")); setText("lightLabel", tr("light")); setText("themeTemplateLabel", tr("themeTemplate")); setText("coreThemesText", tr("coreThemes")); setText("signatureThemesText", tr("signatureThemes")); setText("monoThemeText", tr("monoTheme")); setText("goldThemeText", tr("goldTheme")); setText("skyThemeText", tr("skyTheme")); setText("matchaThemeText", tr("matchaTheme")); setText("sunsetThemeText", tr("sunsetTheme")); setText("lavenderThemeText", tr("lavenderTheme")); setText("christmasThemeText", tr("christmasTheme")); setText("pinkThemeText", tr("pinkTheme")); setText("webThemeText", tr("webTheme")); setText("symbioteThemeText", tr("symbioteTheme")); setText("blushThemeText", tr("blushTheme")); setText("oceanThemeText", tr("oceanTheme")); setText("pearlThemeText", tr("pearlTheme"));
+  setText("appearanceTitle", tr("appearance")); setText("displayModeLabel", tr("displayMode")); setText("darkLabel", tr("dark")); setText("lightLabel", tr("light")); setText("glassIntensityLabel", tr("glassIntensity")); setText("glassIntensityHint", tr("glassIntensityHint")); setText("glassCoolerText", tr("glassCooler")); setText("glassBalancedText", tr("glassBalanced")); setText("glassLuxeText", tr("glassLuxe")); setText("themeTemplateLabel", tr("themeTemplate")); setText("coreThemesText", tr("coreThemes")); setText("signatureThemesText", tr("signatureThemes")); setText("monoThemeText", tr("monoTheme")); setText("goldThemeText", tr("goldTheme")); setText("skyThemeText", tr("skyTheme")); setText("matchaThemeText", tr("matchaTheme")); setText("sunsetThemeText", tr("sunsetTheme")); setText("lavenderThemeText", tr("lavenderTheme")); setText("christmasThemeText", tr("christmasTheme")); setText("pinkThemeText", tr("pinkTheme")); setText("webThemeText", tr("webTheme")); setText("symbioteThemeText", tr("symbioteTheme")); setText("blushThemeText", tr("blushTheme")); setText("oceanThemeText", tr("oceanTheme")); setText("pearlThemeText", tr("pearlTheme"));
   setText("moneySettingsTitle", tr("moneySettings")); setText("exchangeRateTitle", tr("exchangeRate")); setText("exchangeRateHint", tr("exchangeRateHint")); setText("appNameTitle", tr("appName")); setText("appNameHint", tr("appNameHint")); setText("saveSettingsBtn", tr("saveSettings"));
   setText("categoryManagerTitle", tr("categoryManager")); setText("categoryManagerHint", tr("categoryManagerHint")); $("#newCategoryInput").placeholder = tr("newCategoryPlaceholder"); setText("addCategoryBtn", tr("addCategory")); setText("resetCategoriesBtn", tr("resetCategories")); setText("categoryBudgetsTitle", tr("categoryBudgets")); setText("categoryBudgetsHint", tr("categoryBudgetsHint")); setText("budgetCurrencyNote", tr("budgetCurrencyNote")); setText("saveBudgetsBtn", tr("saveBudgets"));
   setText("dangerZoneTitle", tr("dangerZone")); setText("dangerHintText", tr("clearProfileHint")); setText("clearDataBtn", Date.now() < clearArmedUntil ? tr("tapAgainClear") : tr("clearProfileRecords"));
@@ -2250,6 +2297,19 @@ function renderBackupPage() {
   setText("lastBackupText", displayDateTime(settings.lastBackupAt));
 }
 
+function updateGlassIntensityControl() {
+  const input = $("#glassIntensityInput");
+  const value = $("#glassIntensityValue");
+  const fill = $("#glassIntensityFill");
+  const intensity = clampGlassIntensity(settings.glassIntensity);
+  if (input) {
+    input.value = String(intensity);
+    input.setAttribute("aria-valuetext", `${glassLabelForIntensity(intensity)} · ${intensity}%`);
+  }
+  if (value) value.textContent = `${glassLabelForIntensity(intensity)} · ${intensity}%`;
+  if (fill) fill.style.width = `${intensity}%`;
+}
+
 function renderSettingsPage() {
   const exchangeRateInput = $("#exchangeRateInput");
   const appNameInput = $("#appNameInput");
@@ -2260,6 +2320,7 @@ function renderSettingsPage() {
   if (appNameInput) appNameInput.value = settings.appName || "DollarTracker";
   if (modeDark) modeDark.checked = settings.theme === "dark";
   if (modeLight) modeLight.checked = settings.theme === "light";
+  updateGlassIntensityControl();
 
   $$("[data-template-choice]").forEach(button => button.classList.toggle("active", button.dataset.templateChoice === settings.themeTemplate));
   renderCategoryManager();
@@ -3560,6 +3621,19 @@ function initEvents() {
   $("#summaryBackdrop").addEventListener("click", event => { if (event.target.id === "summaryBackdrop") hideSheet("#summaryBackdrop"); });
   $("#clearSelectionBtn")?.addEventListener("click", clearSelectedRecords);
 
+  const glassIntensityInput = $("#glassIntensityInput");
+  glassIntensityInput?.addEventListener("input", () => {
+    settings.glassIntensity = clampGlassIntensity(glassIntensityInput.value);
+    applyDocumentSettings();
+    updateGlassIntensityControl();
+    debouncedGlassSettingsSave();
+  });
+  glassIntensityInput?.addEventListener("change", () => {
+    settings.glassIntensity = clampGlassIntensity(glassIntensityInput.value);
+    debouncedGlassSettingsSave.flush?.();
+    hapticTick(6);
+  });
+
   $$("[data-template-choice]").forEach(button => button.addEventListener("click", () => {
     settings.themeTemplate = button.dataset.templateChoice;
     saveSettings();
@@ -3650,6 +3724,8 @@ function initEvents() {
     const rate = Number($("#exchangeRateInput").value);
     settings.exchangeRate = rate > 0 ? rate : 4000;
     settings.appName = $("#appNameInput").value.trim() || "DollarTracker";
+    const glassInput = $("#glassIntensityInput");
+    if (glassInput) settings.glassIntensity = clampGlassIntensity(glassInput.value);
     saveSettings();
     saveState();
     render();
@@ -3781,6 +3857,7 @@ function applyDevicePerformanceMode() {
 
   document.documentElement.classList.toggle("thermal-lite", Boolean(isiOS || (coarse && narrow)));
   document.documentElement.classList.toggle("app-backgrounded", document.visibilityState !== "visible");
+  if (settings) applyDocumentSettings();
 }
 
 function boot() {

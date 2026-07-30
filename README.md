@@ -4,7 +4,7 @@ DollarTracker is a local-first USD/KHR money tracker that runs as a PWA today an
 
 ## Current milestone
 
-`v4.0.0-alpha.1 — Clean Core`
+`v4.0.0-alpha.2 — Clean Core`
 
 - Preserves profiles, records, calculator, themes, backups, and local-first behavior.
 - Fixes the separate grey block inside the dark-mode amount field.
@@ -43,3 +43,8 @@ npm run ios:add
 npm run cap:sync
 npm run ios:open
 ```
+
+
+### v4.0.0-alpha.2
+
+Adds a graphics-style Glass Intensity slider in Settings so the app can shift between a cooler interface and the older premium Liquid Glass look. Higher settings can use more GPU and may heat iPhones faster.
