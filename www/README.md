@@ -55,7 +55,6 @@ Local-only mobile ledger app.
 - theme-blush.svg
 - theme-ocean.svg
 - theme-pearl.svg
-- theme-frost-pine.svg
 - README.md
 
 `icon.svg` is a legacy file from before the approved chrome dollar PNG icon and is not referenced anywhere; safe to leave out. `theme-web-card.png` and `theme-pink-card.png` should NOT be uploaded — see the "Web/Pink SVG Restore" note above.

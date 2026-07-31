@@ -1086,7 +1086,7 @@ html[data-template=christmas] .theme-signature{
   width:138px;
   height:108px;
   opacity:.98;
-  background:url("./theme-frost-pine.svg") top right / contain no-repeat;
+  background:none;
   filter:drop-shadow(0 14px 22px rgba(0,45,20,.22));
 }
 
@@ -3092,3 +3092,280 @@ html.thermal-lite[data-theme=light] .quick-add-sheet{
 .glass-range-shell:before{background:rgb(var(--dt-theme-surface-rgb) / .22)!important;border:1px solid color-mix(in srgb, rgb(var(--dt-theme-highlight-rgb)) 18%, transparent)!important;}
 .glass-range-fill{background:linear-gradient(90deg,var(--accent-1),var(--accent-2))!important;box-shadow:0 0 22px color-mix(in srgb,var(--accent-1) 34%,transparent)!important;}
 html[data-theme=light] .glass-range-shell:before{background:rgb(var(--dt-theme-light-surface-rgb) / .72)!important;border-color:color-mix(in srgb, rgb(var(--dt-theme-surface-rgb)) 14%, transparent)!important;}
+
+
+/* ===========================================================================
+   v4.0.0-alpha.5 — selection fix, opaque swipe tray, smoother motion,
+   and refreshed festive / sakura signatures
+=========================================================================== */
+#selectModeBtn{
+  min-width:86px;
+  justify-content:center;
+  text-align:center;
+  white-space:nowrap;
+  overflow:hidden;
+}
+#selectModeBtn .select-mode-btn__label{
+  display:inline-block;
+  min-width:5ch;
+  text-align:center;
+  line-height:1;
+}
+#selectModeBtn.is-done{
+  box-shadow:0 12px 28px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.record-swipe-actions{
+  overflow:hidden;
+  border-radius:inherit;
+  border-left:1px solid color-mix(in srgb, var(--line-strong) 70%, transparent);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent-1) 24%, rgba(22,24,32,.95)) 0%, color-mix(in srgb, var(--accent-2) 22%, rgba(16,18,25,.96)) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.10);
+}
+.record-swipe-actions::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 18% 20%, rgba(255,255,255,.10), transparent 34%);
+  pointer-events:none;
+}
+.swipe-edit-btn,.swipe-delete-btn{
+  position:relative;
+  z-index:1;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.swipe-edit-btn{background:linear-gradient(145deg, color-mix(in srgb, var(--accent-1) 82%, white), color-mix(in srgb, var(--accent-2) 88%, black 6%));}
+.swipe-delete-btn{background:linear-gradient(145deg, color-mix(in srgb, var(--danger) 92%, white 8%), color-mix(in srgb, var(--danger) 82%, black 14%));}
+.record-card.swipe-open .record-swipe-actions,
+.record-card.swipe-dragging .record-swipe-actions{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12), 0 12px 30px rgba(0,0,0,.18);
+}
+
+.summary-sheet-backdrop,
+.edit-sheet-backdrop,
+.calculator-backdrop,
+.filter-sheet-backdrop,
+.profile-sheet-backdrop,
+.choice-sheet-backdrop,
+.quick-add-backdrop{
+  display:flex!important;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  transition:opacity .22s ease, visibility .22s ease;
+}
+.summary-sheet-backdrop.show,
+.edit-sheet-backdrop.show,
+.calculator-backdrop.show,
+.filter-sheet-backdrop.show,
+.profile-sheet-backdrop.show,
+.choice-sheet-backdrop.show,
+.quick-add-backdrop.show{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+.summary-sheet,
+.edit-sheet,
+.calculator-sheet,
+.filter-sheet,
+.profile-sheet,
+.choice-sheet,
+.quick-add-sheet{
+  transform:translate3d(0,14px,0) scale(.985);
+  opacity:0;
+  transition:transform .34s cubic-bezier(.22,1,.36,1), opacity .22s ease, box-shadow .34s ease;
+}
+.selection-float,
+.floating-save-button{
+  opacity:0;
+  transition:transform .34s cubic-bezier(.22,1,.36,1), opacity .22s ease, box-shadow .34s ease;
+}
+.selection-float{
+  transform:translate3d(-50%,14px,0) scale(.985);
+}
+.floating-save-button{
+  transform:translate3d(-50%,14px,0) scale(.985);
+}
+.summary-sheet-backdrop.show > .summary-sheet,
+.edit-sheet-backdrop.show > .edit-sheet,
+.calculator-backdrop.show > .calculator-sheet,
+.filter-sheet-backdrop.show > .filter-sheet,
+.profile-sheet-backdrop.show > .profile-sheet,
+.choice-sheet-backdrop.show > .choice-sheet,
+.quick-add-backdrop.show > .quick-add-sheet{
+  transform:translate3d(0,0,0) scale(1);
+  opacity:1;
+}
+body.history-selection-active .selection-float{
+  transform:translate3d(-50%,0,0) scale(1);
+  opacity:1;
+}
+body.floating-save-ready .floating-save-button{
+  transform:translate3d(-50%,0,0) scale(1);
+  opacity:1;
+}
+#selectionFloat.hidden,
+body:not(.floating-save-ready) .floating-save-button{
+  opacity:0;
+}
+.record-select-btn,
+.record-more-btn,
+.history-filter-btn,
+.history-head-actions .ghost-button,
+.choice-option,
+.profile-option,
+.quick-preset-btn,
+.quick-add-save-row .secondary-button,
+.quick-add-save-row .primary-button{
+  transition:transform .22s cubic-bezier(.22,1,.36,1), opacity .18s ease, background .22s ease, box-shadow .24s ease;
+}
+.record-select-btn:active,
+.record-more-btn:active,
+.history-filter-btn:active,
+.history-head-actions .ghost-button:active,
+.choice-option:active,
+.profile-option:active,
+.quick-preset-btn:active{
+  transform:scale(.98);
+}
+
+html[data-template=christmas] .balance-hero{
+  background:
+    radial-gradient(150% 110% at 18% 0%, rgba(255,241,215,.17), transparent 38%),
+    radial-gradient(120% 110% at 100% 100%, rgba(102,180,120,.12), transparent 42%),
+    linear-gradient(155deg, rgb(var(--dt-theme-surface-strong-rgb) / var(--dt-glass-panel-a1)), rgb(var(--dt-theme-surface-rgb) / var(--dt-glass-panel-a2)))!important;
+}
+html[data-template=christmas] .theme-signature{
+  top:6px;
+  right:0;
+  width:132px;
+  height:88px;
+  opacity:.9;
+  background:none!important;
+  filter:drop-shadow(0 12px 20px rgba(35,55,28,.22));
+}
+html[data-template=christmas] .theme-signature > span,
+html[data-template=christmas] .theme-signature:before,
+html[data-template=christmas] .theme-signature:after{
+  display:block!important;
+}
+html[data-template=christmas] .theme-signature:before{
+  content:"";
+  inset:12px 0 auto auto;
+  width:122px;
+  height:46px;
+  background:
+    linear-gradient(160deg, transparent 0 12%, rgba(110,86,46,.58) 13% 16%, transparent 17%),
+    linear-gradient(146deg, transparent 0 41%, rgba(110,86,46,.42) 42% 44%, transparent 45%),
+    radial-gradient(circle at 16px 30px, rgba(255,248,237,.95) 0 4px, rgba(255,214,144,.48) 5px 8px, transparent 9px),
+    radial-gradient(circle at 38px 21px, rgba(255,248,237,.96) 0 4px, rgba(255,184,124,.48) 5px 8px, transparent 9px),
+    radial-gradient(circle at 62px 30px, rgba(255,248,237,.96) 0 4px, rgba(164,226,164,.44) 5px 8px, transparent 9px),
+    radial-gradient(circle at 84px 19px, rgba(255,248,237,.96) 0 4px, rgba(255,214,144,.48) 5px 8px, transparent 9px),
+    radial-gradient(circle at 106px 28px, rgba(255,248,237,.96) 0 4px, rgba(232,96,96,.42) 5px 8px, transparent 9px);
+  opacity:.96;
+}
+html[data-template=christmas] .theme-signature:after{
+  content:"";
+  inset:44px 6px auto auto;
+  width:114px;
+  height:34px;
+  background:
+    linear-gradient(180deg, rgba(126,100,56,.50), rgba(126,100,56,.08) 62%, transparent 63%),
+    linear-gradient(180deg, rgba(126,100,56,.46), rgba(126,100,56,.08) 62%, transparent 63%),
+    linear-gradient(180deg, rgba(126,100,56,.42), rgba(126,100,56,.08) 62%, transparent 63%),
+    linear-gradient(180deg, rgba(126,100,56,.42), rgba(126,100,56,.08) 62%, transparent 63%);
+  background-size:2px 24px,2px 16px,2px 21px,2px 14px;
+  background-position:14px 0,41px 0,68px 0,93px 0;
+  background-repeat:no-repeat;
+  opacity:.8;
+}
+
+html[data-template=pink] .balance-hero{
+  background:
+    radial-gradient(125% 120% at 14% 0%, rgba(255,244,248,.20), transparent 40%),
+    radial-gradient(90% 80% at 78% 72%, rgba(255,146,188,.10), transparent 38%),
+    linear-gradient(155deg, rgb(var(--dt-theme-surface-strong-rgb) / var(--dt-glass-panel-a1)), rgb(var(--dt-theme-surface-rgb) / var(--dt-glass-panel-a2)))!important;
+}
+html[data-template=pink] .balance-hero:after{
+  background:
+    radial-gradient(circle at 42% 44%, rgba(255,240,246,.58), transparent 30%),
+    radial-gradient(circle at 72% 56%, rgba(255,122,176,.22), transparent 34%),
+    linear-gradient(135deg,var(--accent-1),var(--accent-2))!important;
+  opacity:calc(var(--dt-hero-glow-opacity) * .94)!important;
+}
+html[data-template=pink] .theme-signature{
+  top:5px;
+  right:-2px;
+  width:132px;
+  height:90px;
+  opacity:.92;
+  filter:drop-shadow(0 12px 20px rgba(83,35,55,.18));
+}
+html[data-template=pink] .theme-signature:before{
+  content:"";
+  inset:10px 0 auto auto;
+  width:128px;
+  height:58px;
+  background:
+    linear-gradient(157deg, transparent 0 26%, rgba(114,73,86,.40) 27% 29%, transparent 30%),
+    linear-gradient(138deg, transparent 0 47%, rgba(126,81,96,.32) 48% 50%, transparent 51%),
+    linear-gradient(125deg, transparent 0 63%, rgba(126,81,96,.26) 64% 66%, transparent 67%),
+    radial-gradient(circle at 102px 16px, rgba(255,247,250,.96) 0 4px, rgba(255,203,225,.90) 5px 10px, transparent 11px),
+    radial-gradient(circle at 86px 26px, rgba(255,247,250,.96) 0 3px, rgba(255,187,215,.82) 4px 8px, transparent 9px),
+    radial-gradient(circle at 66px 20px, rgba(255,247,250,.94) 0 3px, rgba(255,174,206,.78) 4px 8px, transparent 9px),
+    radial-gradient(circle at 46px 32px, rgba(255,247,250,.94) 0 3px, rgba(255,196,219,.76) 4px 8px, transparent 9px),
+    radial-gradient(circle at 27px 24px, rgba(255,247,250,.94) 0 3px, rgba(255,188,216,.72) 4px 7px, transparent 8px);
+  transform:rotate(-8deg);
+  opacity:.98;
+}
+html[data-template=pink] .theme-signature:after{
+  content:"";
+  inset:46px auto auto 18px;
+  width:42px;
+  height:22px;
+  background:
+    radial-gradient(ellipse at 18% 34%, rgba(255,235,244,.86) 0 22%, transparent 23%),
+    radial-gradient(ellipse at 44% 72%, rgba(255,198,221,.64) 0 18%, transparent 19%),
+    radial-gradient(ellipse at 78% 36%, rgba(255,176,208,.56) 0 16%, transparent 17%);
+  transform:rotate(-16deg);
+  opacity:.86;
+}
+
+html[data-theme=light] .summary-sheet-backdrop,
+html[data-theme=light] .edit-sheet-backdrop,
+html[data-theme=light] .calculator-backdrop,
+html[data-theme=light] .filter-sheet-backdrop,
+html[data-theme=light] .profile-sheet-backdrop,
+html[data-theme=light] .choice-sheet-backdrop,
+html[data-theme=light] .quick-add-backdrop{
+  background:rgba(245,244,248,.40)!important;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .summary-sheet,
+  .edit-sheet,
+  .calculator-sheet,
+  .filter-sheet,
+  .profile-sheet,
+  .choice-sheet,
+  .quick-add-sheet,
+  .selection-float,
+  .floating-save-button,
+  .record-select-btn,
+  .record-more-btn,
+  .history-filter-btn,
+  .history-head-actions .ghost-button,
+  .choice-option,
+  .profile-option,
+  .quick-preset-btn,
+  .quick-add-save-row .secondary-button,
+  .quick-add-save-row .primary-button{
+    transition:none!important;
+    transform:none!important;
+  }
+}

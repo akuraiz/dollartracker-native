@@ -1,7 +1,7 @@
 
 "use strict";
 
-const APP_VERSION = "4.0.0-alpha.4";
+const APP_VERSION = "4.0.0-alpha.5";
 const RECORD_KEY = "dollarTracker.records.v3";
 const SETTINGS_KEY = "dollarTracker.settings.v3";
 const STATE_KEY = "dollarTracker.state.v3";
@@ -1301,14 +1301,20 @@ function selectVisibleHistoryRecords() {
 }
 
 function renderSelectionControls() {
+  const active = selectionUIActive();
   const button = $("#selectModeBtn");
   if (button) {
-    button.textContent = selectionUIActive() ? tr("doneSelection") : tr("selectHistory");
-    button.classList.toggle("active", selectionUIActive());
+    const label = active ? tr("doneSelection") : tr("selectHistory");
+    const labelTarget = button.querySelector(".select-mode-btn__label") || button;
+    labelTarget.textContent = label;
+    button.classList.toggle("active", active);
+    button.classList.toggle("is-done", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+    button.dataset.state = active ? "done" : "select";
   }
   const selectVisible = $("#selectVisibleBtn");
   if (selectVisible) selectVisible.textContent = tr("selectAllVisible");
-  document.body.classList.toggle("history-selection-active", selectionUIActive() && activePageName() === "history");
+  document.body.classList.toggle("history-selection-active", active && activePageName() === "history");
 }
 
 function renderSelectionSummary() {
@@ -3102,6 +3108,7 @@ function saveEditedRecord(event) {
   }
 
   const currentRate = Number(settings.exchangeRate || 4000);
+  const previousBalanceUSD = totals().balanceUSD;
   const nextType = new FormData(event.currentTarget).get("editType") === "In" ? "In" : "Out";
   const nextCategory = $("#editCategoryInput").value || "other";
   const nextDescription = $("#editDescriptionInput").value.trim();
@@ -3144,7 +3151,7 @@ function saveEditedRecord(event) {
 
   saveRecords();
   resetHistoryVisibleCount();
-  render();
+  render({ animateBalanceFrom: previousBalanceUSD });
   closeEditRecord();
   showToast(tr("recordUpdated"));
 }

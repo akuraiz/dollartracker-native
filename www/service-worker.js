@@ -1,4 +1,4 @@
-const CACHE_NAME = "dollartracker-native-v48-4.0.0-alpha.4";
+const CACHE_NAME = "dollartracker-native-v49-4.0.0-alpha.5";
 const ASSETS = [
   "./",
   "./index.html",
@@ -11,7 +11,6 @@ const ASSETS = [
   "./icon-512.png",
   "./flag-en.png",
   "./flag-kh.png",
-  "./theme-frost-pine.svg",
   "./theme-pink.svg",
   "./theme-web.svg",
   "./theme-symbiote.svg",

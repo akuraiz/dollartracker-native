@@ -1,13 +1,13 @@
 # Changelog
 
-## 4.0.0-alpha.4
+## 4.0.0-alpha.5
 
 - Restored the Christmas theme toward the warmer, more alive old Liquid Glass style.
 - Made Glass Intensity affect light mode as well as dark mode.
 - Added readable light-mode glass surfaces and cream Christmas light-mode controls.
 - Kept iPhone optimizations by using static ambience instead of moving aurora effects.
 
-## 4.0.0-alpha.4
+## 4.0.0-alpha.5
 
 - Established the native-ready repository structure.
 - Added Capacitor 8 configuration without generating iOS on Windows.
@@ -15,7 +15,7 @@
 - Added keyboard-safe floating Save positioning.
 - Added setup, iOS handoff, testing, and release documentation.
 
-## 4.0.0-alpha.4 - Theme-Colored Liquid Glass Engine
+## 4.0.0-alpha.5 - Theme-Colored Liquid Glass Engine
 
 - Reworked the glass system so every theme keeps its color identity in dark mode instead of turning black.
 - Added matching tinted glass behavior for light mode so it is not plain clear/white.
