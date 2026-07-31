@@ -1,7 +1,7 @@
 
 "use strict";
 
-const APP_VERSION = "4.0.0-alpha.2";
+const APP_VERSION = "4.0.0-alpha.4";
 const RECORD_KEY = "dollarTracker.records.v3";
 const SETTINGS_KEY = "dollarTracker.settings.v3";
 const STATE_KEY = "dollarTracker.state.v3";
@@ -36,7 +36,7 @@ const defaultSettings = {
   language: "en",
   theme: "dark",
   themeTemplate: "mono",
-  glassIntensity: 72,
+  glassIntensity: 84,
   displayCurrency: "USD",
   exchangeRate: 4000,
   lastBackupAt: "",
@@ -71,7 +71,7 @@ const I18N = {
     backupReminderTitle:"Backup Reminder", backupReminderText:"It has been a while since your last backup. Export one now so your records stay safe.", backupReminderNeverText:"You have records but no backup yet. Export one now so you can restore later.", dismiss:"Dismiss",
     exportBackup:"Export Backup JSON", exportCsv:"Export CSV", importBackup:"Import Backup JSON", safetyHabit:"Safety habit",
     safetyHint:"After adding records, export a backup and save it to iCloud Drive or Google Drive.", appearance:"Appearance", displayMode:"Display Mode",
-    dark:"Dark", light:"Light", glassIntensity:"Glass Intensity", glassIntensityHint:"Lower = cooler. Higher = old premium glass, but can heat the phone faster.", glassCooler:"Cooler", glassBalanced:"Balanced", glassLuxe:"Luxe", themeTemplate:"Theme Template", coreThemes:"Core", signatureThemes:"Signature", monoTheme:"Silver", pinkTheme:"Pink", goldTheme:"Gold", skyTheme:"Sky", matchaTheme:"Matcha", sunsetTheme:"Sunset", lavenderTheme:"Lavender", christmasTheme:"Frost Pine", webTheme:"Web", symbioteTheme:"Symbiote", blushTheme:"Blush Pop", oceanTheme:"Ocean", pearlTheme:"Pearl", moneySettings:"Money Settings",
+    dark:"Dark", light:"Light", glassIntensity:"Glass Intensity", glassIntensityHint:"Lower = cooler. Higher = old premium glass, but can heat the phone faster.", glassCooler:"Cooler", glassBalanced:"Balanced", glassLuxe:"Luxe", themeTemplate:"Theme Template", coreThemes:"Core", signatureThemes:"Signature", monoTheme:"Silver", pinkTheme:"Pink", goldTheme:"Gold", skyTheme:"Sky", matchaTheme:"Matcha", sunsetTheme:"Sunset", lavenderTheme:"Lavender", christmasTheme:"Christmas Luxe", webTheme:"Web", symbioteTheme:"Symbiote", blushTheme:"Blush Pop", oceanTheme:"Ocean", pearlTheme:"Pearl", moneySettings:"Money Settings",
     exchangeRate:"Exchange Rate", exchangeRateHint:"Default: 1 USD = 4000៛", appName:"App Name", appNameHint:"Shown inside the app",
     saveSettings:"Save Settings", dangerZone:"Danger Zone", dangerHint:"Tap twice to clear all records.", clearAll:"Clear All Records",
     tapAgainClear:"Tap again to clear", record:"record", records:"records", noRecords:"No records here yet.", delete:"Delete",
@@ -102,7 +102,7 @@ const I18N = {
     exportBackup:"នាំចេញ Backup JSON", exportCsv:"នាំចេញ CSV", importBackup:"នាំចូល Backup JSON",
     safetyHabit:"ទម្លាប់សុវត្ថិភាព", safetyHint:"បន្ទាប់ពីបញ្ចូលកំណត់ត្រា សូមនាំចេញ Backup ហើយរក្សាទុកក្នុង iCloud Drive ឬ Google Drive។",
     appearance:"រូបរាង", displayMode:"របៀបបង្ហាញ", dark:"ងងឹត", light:"ភ្លឺ", glassIntensity:"កម្រិតកញ្ចក់", glassIntensityHint:"ទាប = ត្រជាក់ជាង។ ខ្ពស់ = កញ្ចក់ស្អាតដូចចាស់ ប៉ុន្តែអាចក្តៅម៉ាស៊ីនលឿនជាង។", glassCooler:"ត្រជាក់", glassBalanced:"សមតុល្យ", glassLuxe:"ស្អាតបំផុត", themeTemplate:"គំរូពណ៌", coreThemes:"មូលដ្ឋាន", signatureThemes:"ពិសេស", monoTheme:"Silver",
-    pinkTheme:"Pink", goldTheme:"Gold", skyTheme:"Sky", matchaTheme:"Matcha", sunsetTheme:"Sunset", lavenderTheme:"Lavender", christmasTheme:"Frost Pine", webTheme:"Web", symbioteTheme:"Symbiote", blushTheme:"Blush Pop", oceanTheme:"Ocean", pearlTheme:"Pearl", moneySettings:"ការកំណត់ទឹកប្រាក់", exchangeRate:"អត្រាប្តូរប្រាក់", exchangeRateHint:"លំនាំដើម៖ 1 USD = 4000៛",
+    pinkTheme:"Pink", goldTheme:"Gold", skyTheme:"Sky", matchaTheme:"Matcha", sunsetTheme:"Sunset", lavenderTheme:"Lavender", christmasTheme:"Christmas Luxe", webTheme:"Web", symbioteTheme:"Symbiote", blushTheme:"Blush Pop", oceanTheme:"Ocean", pearlTheme:"Pearl", moneySettings:"ការកំណត់ទឹកប្រាក់", exchangeRate:"អត្រាប្តូរប្រាក់", exchangeRateHint:"លំនាំដើម៖ 1 USD = 4000៛",
     appName:"ឈ្មោះកម្មវិធី", appNameHint:"បង្ហាញនៅក្នុងកម្មវិធី", saveSettings:"រក្សាទុកការកំណត់", dangerZone:"តំបន់ប្រុងប្រយ័ត្ន",
     dangerHint:"ចុចពីរដងដើម្បីលុបកំណត់ត្រាទាំងអស់។", clearAll:"លុបកំណត់ត្រាទាំងអស់", tapAgainClear:"ចុចម្ដងទៀតដើម្បីលុប",
     record:"កំណត់ត្រា", records:"កំណត់ត្រា", noRecords:"មិនទាន់មានកំណត់ត្រា។", delete:"លុប",
@@ -1128,7 +1128,7 @@ const THEME_BG_COLORS = {
   matcha: { dark: "#090f09", light: "#f3f8ec" },
   sunset: { dark: "#150a11", light: "#fff1ec" },
   lavender: { dark: "#0e0b18", light: "#f6f2ff" },
-  christmas: { dark: "#07100a", light: "#f1f8f2" },
+  christmas: { dark: "#06150c", light: "#f4f7ee" },
   pink: { dark: "#130a0f", light: "#fff3f8" },
   web: { dark: "#090305", light: "#fff0f2" },
   symbiote: { dark: "#050506", light: "#f2f3f5" },
@@ -1149,20 +1149,26 @@ function applyDocumentSettings() {
   const rootStyle = document.documentElement.style;
 
   rootStyle.setProperty("--dt-glass-strength", strength.toFixed(2));
-  rootStyle.setProperty("--dt-glass-panel-a1", (0.82 - strength * 0.36).toFixed(3));
-  rootStyle.setProperty("--dt-glass-panel-a2", (0.76 - strength * 0.36).toFixed(3));
-  rootStyle.setProperty("--dt-glass-bar-a1", (0.86 - strength * 0.30).toFixed(3));
-  rootStyle.setProperty("--dt-glass-bar-a2", (0.80 - strength * 0.32).toFixed(3));
-  rootStyle.setProperty("--dt-glass-control-a", (0.18 - strength * 0.07).toFixed(3));
-  rootStyle.setProperty("--dt-glass-blur", `${Math.round(6 + strength * 18)}px`);
-  rootStyle.setProperty("--dt-glass-bar-blur", `${Math.round(8 + strength * 18)}px`);
-  rootStyle.setProperty("--dt-glass-control-blur", `${Math.round(4 + strength * 10)}px`);
-  rootStyle.setProperty("--dt-glass-saturation", `${Math.round(116 + strength * 54)}%`);
-  rootStyle.setProperty("--dt-glass-shadow-a", (0.10 + strength * 0.12).toFixed(3));
-  rootStyle.setProperty("--dt-glass-edge-a", (0.08 + strength * 0.08).toFixed(3));
-  rootStyle.setProperty("--dt-hero-glow-display", intensity < 22 ? "none" : "block");
-  rootStyle.setProperty("--dt-hero-glow-opacity", (0.06 + strength * 0.18).toFixed(3));
-  rootStyle.setProperty("--dt-hero-glow-blur", `${Math.round(30 + strength * 40)}px`);
+  rootStyle.setProperty("--dt-glass-panel-a1", (0.78 - strength * 0.44).toFixed(3));
+  rootStyle.setProperty("--dt-glass-panel-a2", (0.72 - strength * 0.40).toFixed(3));
+  rootStyle.setProperty("--dt-glass-bar-a1", (0.82 - strength * 0.38).toFixed(3));
+  rootStyle.setProperty("--dt-glass-bar-a2", (0.78 - strength * 0.38).toFixed(3));
+  rootStyle.setProperty("--dt-glass-control-a", (0.24 - strength * 0.10).toFixed(3));
+  rootStyle.setProperty("--dt-glass-blur", `${Math.round(7 + strength * 20)}px`);
+  rootStyle.setProperty("--dt-glass-bar-blur", `${Math.round(8 + strength * 20)}px`);
+  rootStyle.setProperty("--dt-glass-control-blur", `${Math.round(5 + strength * 11)}px`);
+  rootStyle.setProperty("--dt-glass-saturation", `${Math.round(118 + strength * 62)}%`);
+  rootStyle.setProperty("--dt-glass-shadow-a", (0.10 + strength * 0.14).toFixed(3));
+  rootStyle.setProperty("--dt-glass-edge-a", (0.09 + strength * 0.09).toFixed(3));
+  rootStyle.setProperty("--dt-light-panel-a1", (0.96 - strength * 0.30).toFixed(3));
+  rootStyle.setProperty("--dt-light-panel-a2", (0.92 - strength * 0.30).toFixed(3));
+  rootStyle.setProperty("--dt-light-bar-a1", (0.94 - strength * 0.28).toFixed(3));
+  rootStyle.setProperty("--dt-light-bar-a2", (0.90 - strength * 0.30).toFixed(3));
+  rootStyle.setProperty("--dt-light-control-a", (0.99 - strength * 0.24).toFixed(3));
+  rootStyle.setProperty("--dt-light-shadow-a", (0.08 + strength * 0.09).toFixed(3));
+  rootStyle.setProperty("--dt-hero-glow-display", intensity < 18 ? "none" : "block");
+  rootStyle.setProperty("--dt-hero-glow-opacity", (0.08 + strength * 0.22).toFixed(3));
+  rootStyle.setProperty("--dt-hero-glow-blur", `${Math.round(32 + strength * 44)}px`);
 
   const palette = THEME_BG_COLORS[settings.themeTemplate] || THEME_BG_COLORS.mono;
   const themeColor = palette[settings.theme] || palette.dark;

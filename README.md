@@ -4,7 +4,7 @@ DollarTracker is a local-first USD/KHR money tracker that runs as a PWA today an
 
 ## Current milestone
 
-`v4.0.0-alpha.2 — Clean Core`
+`v4.0.0-alpha.4 — Clean Core`
 
 - Preserves profiles, records, calculator, themes, backups, and local-first behavior.
 - Fixes the separate grey block inside the dark-mode amount field.
@@ -45,6 +45,18 @@ npm run ios:open
 ```
 
 
-### v4.0.0-alpha.2
+### v4.0.0-alpha.4
 
 Adds a graphics-style Glass Intensity slider in Settings so the app can shift between a cooler interface and the older premium Liquid Glass look. Higher settings can use more GPU and may heat iPhones faster.
+
+
+### v4.0.0-alpha.4
+
+- Christmas Luxe theme revived with warmer green/gold glass.
+- Glass Intensity now affects both dark and light mode.
+- Luxe mode looks closer to the old beautiful version while cooler levels stay easier on the phone.
+
+
+## v4.0.0-alpha.4 Theme-Colored Liquid Glass Engine
+
+Dark and light themes now keep their own color personality while the Glass Intensity slider changes blur, glow, saturation, and depth. Christmas Luxe is tuned back toward the warm green/gold old favorite look.

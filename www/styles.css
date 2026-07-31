@@ -2551,3 +2551,544 @@ body.keyboard-open .glass-lite,
 body.keyboard-open .glass-strong{will-change:auto!important}
 body.keyboard-open .amount-wrap,
 body.keyboard-open .floating-save-button{backdrop-filter:blur(8px) saturate(125%)!important;-webkit-backdrop-filter:blur(8px) saturate(125%)!important}
+
+
+/* ===========================================================================
+   v4.0.0-alpha.3 — Theme-aware Glass Intensity + Christmas Luxe revival
+   The slider now works in both dark and light mode. Christmas intentionally
+   gets the warmer, more alive old Liquid Glass direction back.
+=========================================================================== */
+:root{
+  --dt-light-panel-a1:.732;
+  --dt-light-panel-a2:.692;
+  --dt-light-bar-a1:.727;
+  --dt-light-bar-a2:.672;
+  --dt-light-control-a:.808;
+  --dt-light-shadow-a:.148;
+}
+
+/* Light mode needs the same graphics control: lower = solid/readable,
+   higher = more transparent/luxury. */
+html[data-theme=light] .glass,
+html[data-theme=light] .glass-lite,
+html[data-theme=light] .glass-strong,
+html[data-theme=light] .quick-card,
+html[data-theme=light] .record-card-body,
+html[data-theme=light] .profile-manager-row,
+html[data-theme=light] .selection-summary-bar,
+html[data-theme=light] .profile-sheet,
+html[data-theme=light] .summary-sheet,
+html[data-theme=light] .edit-sheet,
+html[data-theme=light] .calculator-sheet,
+html[data-theme=light] .filter-sheet,
+html[data-theme=light] .quick-add-sheet,
+html[data-theme=light] .choice-sheet{
+  background:
+    radial-gradient(130% 160% at 12% -25%, rgba(255,255,255,.58), transparent 44%),
+    linear-gradient(155deg, rgb(255 255 255 / var(--dt-light-panel-a1)), rgb(255 255 255 / var(--dt-light-panel-a2)))!important;
+  backdrop-filter:blur(var(--dt-glass-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-blur)) saturate(var(--dt-glass-saturation))!important;
+  border-color:rgb(17 17 19 / var(--dt-glass-edge-a))!important;
+  box-shadow:0 14px 34px rgb(30 35 45 / var(--dt-light-shadow-a)), inset 0 1px 0 rgba(255,255,255,.72)!important;
+}
+html[data-theme=light] .topbar,
+html[data-theme=light] .bottom-nav{
+  background:linear-gradient(155deg, rgb(255 255 255 / var(--dt-light-bar-a1)), rgb(255 255 255 / var(--dt-light-bar-a2)))!important;
+  backdrop-filter:blur(var(--dt-glass-bar-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-bar-blur)) saturate(var(--dt-glass-saturation))!important;
+  border-color:rgb(17 17 19 / var(--dt-glass-edge-a))!important;
+  box-shadow:0 10px 28px rgb(30 35 45 / var(--dt-light-shadow-a)), inset 0 1px 0 rgba(255,255,255,.76)!important;
+}
+html[data-theme=light] input,
+html[data-theme=light] textarea,
+html[data-theme=light] select,
+html[data-theme=light] .amount-wrap,
+html[data-theme=light] .calc-display-shell,
+html[data-theme=light] .choice-option,
+html[data-theme=light] .profile-option{
+  background:rgb(255 255 255 / var(--dt-light-control-a))!important;
+  backdrop-filter:blur(var(--dt-glass-control-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-control-blur)) saturate(var(--dt-glass-saturation))!important;
+  border-color:rgb(17 17 19 / var(--dt-glass-edge-a))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),0 8px 18px rgba(30,35,45,.07)!important;
+}
+html[data-theme=light] .amount-wrap input,
+html[data-theme=light] .amount-wrap input:focus{
+  background:transparent!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+html[data-theme=light] .calculator-backdrop,
+html[data-theme=light] .summary-sheet-backdrop,
+html[data-theme=light] .edit-sheet-backdrop,
+html[data-theme=light] .filter-sheet-backdrop,
+html[data-theme=light] .quick-add-backdrop,
+html[data-theme=light] .profile-sheet-backdrop{
+  background:rgba(245,248,246,.42)!important;
+}
+html.thermal-lite[data-theme=light] .glass,
+html.thermal-lite[data-theme=light] .glass-lite,
+html.thermal-lite[data-theme=light] .glass-strong,
+html.thermal-lite[data-theme=light] .quick-card,
+html.thermal-lite[data-theme=light] .record-card-body,
+html.thermal-lite[data-theme=light] .profile-sheet,
+html.thermal-lite[data-theme=light] .summary-sheet,
+html.thermal-lite[data-theme=light] .edit-sheet,
+html.thermal-lite[data-theme=light] .calculator-sheet,
+html.thermal-lite[data-theme=light] .filter-sheet,
+html.thermal-lite[data-theme=light] .quick-add-sheet{
+  backdrop-filter:blur(clamp(7px, var(--dt-glass-blur), 16px)) saturate(clamp(118%, var(--dt-glass-saturation), 150%))!important;
+  -webkit-backdrop-filter:blur(clamp(7px, var(--dt-glass-blur), 16px)) saturate(clamp(118%, var(--dt-glass-saturation), 150%))!important;
+}
+
+/* Christmas Luxe: warmer old-version mood, not the generic blue-black panel. */
+html[data-template=christmas]{
+  --bg:#06150c;
+  --bg2:#14251a;
+  --surface:rgba(255,229,180,.14);
+  --surface-2:rgba(255,243,212,.22);
+  --line:rgba(244,198,124,.24);
+  --line-strong:rgba(244,198,124,.42);
+  --orb1:rgba(255,143,100,.28);
+  --orb2:rgba(112,190,118,.24);
+  --orb3:rgba(255,210,140,.22);
+}
+html[data-template=christmas] body{
+  background:
+    radial-gradient(circle at 18% -12%, rgba(255,205,150,.16), transparent 34%),
+    radial-gradient(circle at 88% 12%, rgba(97,185,112,.14), transparent 30%),
+    radial-gradient(circle at 55% 70%, rgba(245,115,95,.08), transparent 34%),
+    linear-gradient(160deg, var(--bg), var(--bg2))!important;
+}
+html[data-template=christmas][data-theme=dark] .glass,
+html[data-template=christmas][data-theme=dark] .glass-lite,
+html[data-template=christmas][data-theme=dark] .glass-strong,
+html[data-template=christmas][data-theme=dark] .quick-card,
+html[data-template=christmas][data-theme=dark] .record-card-body,
+html[data-template=christmas][data-theme=dark] .profile-manager-row,
+html[data-template=christmas][data-theme=dark] .selection-summary-bar,
+html[data-template=christmas][data-theme=dark] .profile-sheet,
+html[data-template=christmas][data-theme=dark] .summary-sheet,
+html[data-template=christmas][data-theme=dark] .edit-sheet,
+html[data-template=christmas][data-theme=dark] .calculator-sheet,
+html[data-template=christmas][data-theme=dark] .filter-sheet,
+html[data-template=christmas][data-theme=dark] .quick-add-sheet,
+html[data-template=christmas][data-theme=dark] .choice-sheet{
+  background:
+    radial-gradient(130% 150% at 16% -22%, rgba(255,229,176,.24), transparent 42%),
+    radial-gradient(100% 120% at 95% 115%, rgba(74,154,92,.18), transparent 44%),
+    linear-gradient(155deg, rgb(94 89 66 / var(--dt-glass-panel-a1)), rgb(25 53 38 / var(--dt-glass-panel-a2)))!important;
+  border-color:rgba(244,198,124,var(--dt-glass-edge-a))!important;
+  box-shadow:0 14px 34px rgb(0 0 0 / var(--dt-glass-shadow-a)), inset 0 1px 0 rgba(255,239,204,.17)!important;
+}
+html[data-template=christmas][data-theme=dark] .topbar,
+html[data-template=christmas][data-theme=dark] .bottom-nav{
+  background:
+    radial-gradient(120% 150% at 16% -40%, rgba(255,229,176,.18), transparent 42%),
+    linear-gradient(155deg, rgb(70 91 68 / var(--dt-glass-bar-a1)), rgb(21 46 34 / var(--dt-glass-bar-a2)))!important;
+  border-color:rgba(244,198,124,var(--dt-glass-edge-a))!important;
+}
+html[data-template=christmas][data-theme=dark] input,
+html[data-template=christmas][data-theme=dark] textarea,
+html[data-template=christmas][data-theme=dark] select,
+html[data-template=christmas][data-theme=dark] .amount-wrap,
+html[data-template=christmas][data-theme=dark] .calc-display-shell,
+html[data-template=christmas][data-theme=dark] .choice-option,
+html[data-template=christmas][data-theme=dark] .profile-option{
+  background:rgba(255,232,190,var(--dt-glass-control-a))!important;
+  border-color:rgba(244,198,124,.20)!important;
+}
+html[data-template=christmas][data-theme=dark] .out-card{
+  background:
+    linear-gradient(155deg, rgba(255,96,96,.20), transparent 66%),
+    radial-gradient(120% 130% at 12% -18%, rgba(255,210,160,.16), transparent 42%),
+    linear-gradient(155deg, rgb(94 74 66 / var(--dt-glass-panel-a1)), rgb(39 48 33 / var(--dt-glass-panel-a2)))!important;
+}
+html[data-template=christmas][data-theme=dark] .in-card{
+  background:
+    linear-gradient(155deg, rgba(61,220,132,.20), transparent 66%),
+    radial-gradient(120% 130% at 12% -18%, rgba(255,235,190,.15), transparent 42%),
+    linear-gradient(155deg, rgb(69 98 65 / var(--dt-glass-panel-a1)), rgb(22 56 39 / var(--dt-glass-panel-a2)))!important;
+}
+html[data-template=christmas][data-theme=dark] .balance-hero:before{
+  background:
+    radial-gradient(circle at 18% -4%,rgba(255,237,202,.28),transparent 40%),
+    radial-gradient(circle at 100% 95%,rgba(112,190,118,.16),transparent 32%)!important;
+}
+html[data-template=christmas][data-theme=dark] .balance-hero:after{
+  display:var(--dt-hero-glow-display)!important;
+  background:radial-gradient(circle at 48% 42%,rgba(255,219,150,.62),transparent 46%),linear-gradient(135deg,var(--accent-1),var(--accent-2))!important;
+  opacity:var(--dt-hero-glow-opacity)!important;
+  filter:blur(var(--dt-hero-glow-blur))!important;
+}
+
+/* Christmas in light mode keeps readable cream glass instead of clear white. */
+html[data-template=christmas][data-theme=light]{
+  --bg:#f4f7ee;
+  --bg2:#e3eedf;
+  --text:#102317;
+  --muted:rgba(16,35,23,.64);
+  --muted-2:rgba(16,35,23,.44);
+}
+html[data-template=christmas][data-theme=light] body{
+  background:
+    radial-gradient(circle at 16% -10%, rgba(255,197,132,.24), transparent 34%),
+    radial-gradient(circle at 88% 8%, rgba(94,160,95,.18), transparent 30%),
+    linear-gradient(160deg, var(--bg), var(--bg2))!important;
+}
+html[data-template=christmas][data-theme=light] .glass,
+html[data-template=christmas][data-theme=light] .glass-lite,
+html[data-template=christmas][data-theme=light] .glass-strong,
+html[data-template=christmas][data-theme=light] .quick-card,
+html[data-template=christmas][data-theme=light] .record-card-body,
+html[data-template=christmas][data-theme=light] .profile-manager-row,
+html[data-template=christmas][data-theme=light] .selection-summary-bar,
+html[data-template=christmas][data-theme=light] .profile-sheet,
+html[data-template=christmas][data-theme=light] .summary-sheet,
+html[data-template=christmas][data-theme=light] .edit-sheet,
+html[data-template=christmas][data-theme=light] .calculator-sheet,
+html[data-template=christmas][data-theme=light] .filter-sheet,
+html[data-template=christmas][data-theme=light] .quick-add-sheet,
+html[data-template=christmas][data-theme=light] .choice-sheet{
+  background:
+    radial-gradient(130% 160% at 12% -25%, rgba(255,246,224,.72), transparent 44%),
+    linear-gradient(155deg, rgb(255 248 225 / var(--dt-light-panel-a1)), rgb(235 246 226 / var(--dt-light-panel-a2)))!important;
+  border-color:rgba(129,100,52,.18)!important;
+}
+html[data-template=christmas][data-theme=light] .topbar,
+html[data-template=christmas][data-theme=light] .bottom-nav{
+  background:linear-gradient(155deg, rgb(246 251 238 / var(--dt-light-bar-a1)), rgb(221 237 215 / var(--dt-light-bar-a2)))!important;
+  border-color:rgba(83,112,72,.18)!important;
+}
+html[data-template=christmas][data-theme=light] input,
+html[data-template=christmas][data-theme=light] textarea,
+html[data-template=christmas][data-theme=light] select,
+html[data-template=christmas][data-theme=light] .amount-wrap,
+html[data-template=christmas][data-theme=light] .calc-display-shell,
+html[data-template=christmas][data-theme=light] .choice-option,
+html[data-template=christmas][data-theme=light] .profile-option{
+  background:rgb(255 250 236 / var(--dt-light-control-a))!important;
+  border-color:rgba(83,112,72,.16)!important;
+}
+html[data-template=christmas][data-theme=light] .out-card{
+  background:linear-gradient(155deg, rgba(255,105,95,.13), transparent 66%),linear-gradient(155deg, rgb(255 248 225 / var(--dt-light-panel-a1)), rgb(239 244 226 / var(--dt-light-panel-a2)))!important;
+}
+html[data-template=christmas][data-theme=light] .in-card{
+  background:linear-gradient(155deg, rgba(31,157,85,.14), transparent 66%),linear-gradient(155deg, rgb(246 251 238 / var(--dt-light-panel-a1)), rgb(226 244 222 / var(--dt-light-panel-a2)))!important;
+}
+
+/* Luxe can show static ambience on iPhone again, but still no movement. */
+html.thermal-lite[data-glass-level=luxe][data-template=christmas] .aurora-bg,
+html.thermal-lite[data-glass-level=luxe][data-template=christmas] .orb{
+  display:block!important;
+}
+html.thermal-lite[data-glass-level=luxe][data-template=christmas] .orb{
+  animation:none!important;
+  filter:blur(38px)!important;
+  opacity:.42!important;
+  transform:none!important;
+}
+html.thermal-lite[data-glass-level=balanced][data-template=christmas] .aurora-bg,
+html.thermal-lite[data-glass-level=balanced][data-template=christmas] .orb{
+  display:block!important;
+}
+html.thermal-lite[data-glass-level=balanced][data-template=christmas] .orb{
+  animation:none!important;
+  filter:blur(34px)!important;
+  opacity:.22!important;
+  transform:none!important;
+}
+html.thermal-lite[data-glass-level=cool] .aurora-bg,
+html.thermal-lite[data-glass-level=cool] .orb{
+  display:none!important;
+}
+
+
+/* ===========================================================================
+   v4.0.0-alpha.4 — Theme-Colored Liquid Glass Engine
+   Design rule: every theme keeps its own color identity in both dark and light
+   mode. The slider changes graphics intensity (blur, glow, depth), not whether
+   the UI becomes black or clear. Cooler still has color; Luxe is the old rich
+   liquid-glass look and may run warmer on iPhone.
+=========================================================================== */
+:root{
+  --dt-theme-surface-rgb:34 37 45;
+  --dt-theme-surface-strong-rgb:66 69 80;
+  --dt-theme-bar-rgb:45 49 59;
+  --dt-theme-highlight-rgb:255 255 255;
+  --dt-theme-shadow-rgb:0 0 0;
+  --dt-theme-light-surface-rgb:246 248 252;
+  --dt-theme-light-surface-strong-rgb:255 255 255;
+  --dt-theme-light-bar-rgb:244 246 251;
+  --dt-theme-light-highlight-rgb:255 255 255;
+  --dt-theme-light-shadow-rgb:43 50 68;
+}
+html[data-template=gold]{--dt-theme-surface-rgb:64 42 18;--dt-theme-surface-strong-rgb:120 84 36;--dt-theme-bar-rgb:78 58 32;--dt-theme-highlight-rgb:255 222 162;--dt-theme-shadow-rgb:20 12 3;--dt-theme-light-surface-rgb:250 234 202;--dt-theme-light-surface-strong-rgb:255 246 226;--dt-theme-light-bar-rgb:247 235 208;--dt-theme-light-highlight-rgb:255 251 240;--dt-theme-light-shadow-rgb:104 73 22}
+html[data-template=sky]{--dt-theme-surface-rgb:22 49 82;--dt-theme-surface-strong-rgb:67 112 158;--dt-theme-bar-rgb:31 60 92;--dt-theme-highlight-rgb:191 225 255;--dt-theme-shadow-rgb:4 16 35;--dt-theme-light-surface-rgb:222 238 255;--dt-theme-light-surface-strong-rgb:247 252 255;--dt-theme-light-bar-rgb:218 235 253;--dt-theme-light-highlight-rgb:255 255 255;--dt-theme-light-shadow-rgb:28 80 130}
+html[data-template=matcha]{--dt-theme-surface-rgb:36 64 34;--dt-theme-surface-strong-rgb:87 119 58;--dt-theme-bar-rgb:45 71 43;--dt-theme-highlight-rgb:224 240 181;--dt-theme-shadow-rgb:7 18 7;--dt-theme-light-surface-rgb:229 240 212;--dt-theme-light-surface-strong-rgb:248 252 240;--dt-theme-light-bar-rgb:224 237 208;--dt-theme-light-highlight-rgb:255 255 246;--dt-theme-light-shadow-rgb:45 72 28}
+html[data-template=sunset]{--dt-theme-surface-rgb:75 39 57;--dt-theme-surface-strong-rgb:129 66 78;--dt-theme-bar-rgb:83 50 69;--dt-theme-highlight-rgb:255 198 166;--dt-theme-shadow-rgb:30 8 18;--dt-theme-light-surface-rgb:255 225 220;--dt-theme-light-surface-strong-rgb:255 244 237;--dt-theme-light-bar-rgb:253 222 229;--dt-theme-light-highlight-rgb:255 252 247;--dt-theme-light-shadow-rgb:118 42 60}
+html[data-template=lavender]{--dt-theme-surface-rgb:48 40 76;--dt-theme-surface-strong-rgb:89 73 136;--dt-theme-bar-rgb:57 48 86;--dt-theme-highlight-rgb:223 209 255;--dt-theme-shadow-rgb:14 8 32;--dt-theme-light-surface-rgb:234 225 252;--dt-theme-light-surface-strong-rgb:251 248 255;--dt-theme-light-bar-rgb:230 220 250;--dt-theme-light-highlight-rgb:255 255 255;--dt-theme-light-shadow-rgb:70 48 118}
+html[data-template=christmas]{--dt-theme-surface-rgb:58 77 51;--dt-theme-surface-strong-rgb:136 124 91;--dt-theme-bar-rgb:70 92 65;--dt-theme-highlight-rgb:255 225 171;--dt-theme-shadow-rgb:4 18 9;--dt-theme-light-surface-rgb:226 238 214;--dt-theme-light-surface-strong-rgb:255 246 221;--dt-theme-light-bar-rgb:219 234 208;--dt-theme-light-highlight-rgb:255 252 236;--dt-theme-light-shadow-rgb:43 84 48}
+html[data-template=pink]{--dt-theme-surface-rgb:82 45 64;--dt-theme-surface-strong-rgb:139 82 108;--dt-theme-bar-rgb:91 58 76;--dt-theme-highlight-rgb:255 207 228;--dt-theme-shadow-rgb:31 9 20;--dt-theme-light-surface-rgb:251 222 234;--dt-theme-light-surface-strong-rgb:255 245 250;--dt-theme-light-bar-rgb:248 220 232;--dt-theme-light-highlight-rgb:255 255 255;--dt-theme-light-shadow-rgb:97 39 66}
+html[data-template=web]{--dt-theme-surface-rgb:78 25 35;--dt-theme-surface-strong-rgb:139 39 52;--dt-theme-bar-rgb:81 31 40;--dt-theme-highlight-rgb:255 180 188;--dt-theme-shadow-rgb:24 4 8;--dt-theme-light-surface-rgb:251 218 224;--dt-theme-light-surface-strong-rgb:255 242 245;--dt-theme-light-bar-rgb:246 214 220;--dt-theme-light-highlight-rgb:255 255 255;--dt-theme-light-shadow-rgb:102 22 34}
+html[data-template=symbiote]{--dt-theme-surface-rgb:40 43 52;--dt-theme-surface-strong-rgb:83 88 102;--dt-theme-bar-rgb:45 49 59;--dt-theme-highlight-rgb:238 244 255;--dt-theme-shadow-rgb:0 0 0;--dt-theme-light-surface-rgb:225 229 236;--dt-theme-light-surface-strong-rgb:252 253 255;--dt-theme-light-bar-rgb:222 227 235;--dt-theme-light-highlight-rgb:255 255 255;--dt-theme-light-shadow-rgb:40 47 62}
+html[data-template=blush]{--dt-theme-surface-rgb:82 39 60;--dt-theme-surface-strong-rgb:151 75 113;--dt-theme-bar-rgb:92 52 73;--dt-theme-highlight-rgb:255 216 236;--dt-theme-shadow-rgb:32 7 19;--dt-theme-light-surface-rgb:252 222 237;--dt-theme-light-surface-strong-rgb:255 246 251;--dt-theme-light-bar-rgb:249 219 234;--dt-theme-light-highlight-rgb:255 255 255;--dt-theme-light-shadow-rgb:99 39 66}
+html[data-template=ocean]{--dt-theme-surface-rgb:22 67 76;--dt-theme-surface-strong-rgb:58 124 134;--dt-theme-bar-rgb:30 76 86;--dt-theme-highlight-rgb:190 255 252;--dt-theme-shadow-rgb:3 18 24;--dt-theme-light-surface-rgb:220 243 244;--dt-theme-light-surface-strong-rgb:246 255 255;--dt-theme-light-bar-rgb:215 240 242;--dt-theme-light-highlight-rgb:255 255 255;--dt-theme-light-shadow-rgb:24 83 92}
+html[data-template=pearl]{--dt-theme-surface-rgb:55 61 73;--dt-theme-surface-strong-rgb:105 116 133;--dt-theme-bar-rgb:63 70 83;--dt-theme-highlight-rgb:239 247 255;--dt-theme-shadow-rgb:4 6 12;--dt-theme-light-surface-rgb:226 231 239;--dt-theme-light-surface-strong-rgb:255 255 255;--dt-theme-light-bar-rgb:222 229 239;--dt-theme-light-highlight-rgb:255 255 255;--dt-theme-light-shadow-rgb:51 62 82}
+
+/* Bring back the old alive background, but intensity-controlled. */
+body{
+  background:
+    radial-gradient(circle at 18% -12%, rgb(var(--dt-theme-highlight-rgb) / calc(.07 + var(--dt-glass-strength) * .15)), transparent 35%),
+    radial-gradient(circle at 88% 9%, rgb(var(--accent-1) / calc(.05 + var(--dt-glass-strength) * .14)), transparent 31%),
+    radial-gradient(circle at 50% 73%, rgb(var(--accent-2) / calc(.04 + var(--dt-glass-strength) * .10)), transparent 38%),
+    linear-gradient(160deg, var(--bg), var(--bg2))!important;
+}
+html[data-theme=light] body{
+  background:
+    radial-gradient(circle at 18% -12%, rgb(var(--dt-theme-light-highlight-rgb) / calc(.32 + var(--dt-glass-strength) * .25)), transparent 35%),
+    radial-gradient(circle at 88% 9%, rgb(var(--accent-1) / calc(.07 + var(--dt-glass-strength) * .12)), transparent 31%),
+    radial-gradient(circle at 50% 73%, rgb(var(--accent-2) / calc(.05 + var(--dt-glass-strength) * .10)), transparent 38%),
+    linear-gradient(160deg, var(--bg), var(--bg2))!important;
+}
+
+html[data-theme=dark] .glass,
+html[data-theme=dark] .glass-lite,
+html[data-theme=dark] .glass-strong,
+html[data-theme=dark] .quick-card,
+html[data-theme=dark] .record-card-body,
+html[data-theme=dark] .profile-manager-row,
+html[data-theme=dark] .selection-summary-bar,
+html[data-theme=dark] .profile-sheet,
+html[data-theme=dark] .summary-sheet,
+html[data-theme=dark] .edit-sheet,
+html[data-theme=dark] .calculator-sheet,
+html[data-theme=dark] .filter-sheet,
+html[data-theme=dark] .quick-add-sheet,
+html[data-theme=dark] .choice-sheet{
+  background:
+    radial-gradient(135% 165% at 12% -24%, rgb(var(--dt-theme-highlight-rgb) / calc(.12 + var(--dt-glass-strength) * .22)), transparent 44%),
+    radial-gradient(115% 125% at 100% 105%, rgb(var(--accent-2) / calc(.08 + var(--dt-glass-strength) * .16)), transparent 46%),
+    linear-gradient(155deg, rgb(var(--dt-theme-surface-strong-rgb) / var(--dt-glass-panel-a1)), rgb(var(--dt-theme-surface-rgb) / var(--dt-glass-panel-a2)))!important;
+  border-color:color-mix(in srgb, rgb(var(--dt-theme-highlight-rgb)) calc(14% + var(--dt-glass-strength) * 16%), transparent)!important;
+  box-shadow:
+    0 14px 34px rgb(var(--dt-theme-shadow-rgb) / var(--dt-glass-shadow-a)),
+    inset 0 1px 0 rgb(var(--dt-theme-highlight-rgb) / calc(.10 + var(--dt-glass-strength) * .12)),
+    inset 0 -1px 0 rgb(0 0 0 / .10)!important;
+  backdrop-filter:blur(var(--dt-glass-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-blur)) saturate(var(--dt-glass-saturation))!important;
+}
+html[data-theme=dark] .topbar,
+html[data-theme=dark] .bottom-nav{
+  background:
+    radial-gradient(120% 150% at 14% -35%, rgb(var(--dt-theme-highlight-rgb) / calc(.10 + var(--dt-glass-strength) * .16)), transparent 42%),
+    linear-gradient(155deg, rgb(var(--dt-theme-bar-rgb) / var(--dt-glass-bar-a1)), rgb(var(--dt-theme-surface-rgb) / var(--dt-glass-bar-a2)))!important;
+  border-color:color-mix(in srgb, rgb(var(--dt-theme-highlight-rgb)) calc(13% + var(--dt-glass-strength) * 15%), transparent)!important;
+  box-shadow:0 10px 26px rgb(var(--dt-theme-shadow-rgb) / calc(var(--dt-glass-shadow-a) * .76)), inset 0 1px 0 rgb(var(--dt-theme-highlight-rgb) / calc(.10 + var(--dt-glass-strength) * .10))!important;
+  backdrop-filter:blur(var(--dt-glass-bar-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-bar-blur)) saturate(var(--dt-glass-saturation))!important;
+}
+html[data-theme=dark] input,
+html[data-theme=dark] textarea,
+html[data-theme=dark] select,
+html[data-theme=dark] .amount-wrap,
+html[data-theme=dark] .calc-display-shell,
+html[data-theme=dark] .choice-option,
+html[data-theme=dark] .profile-option,
+html[data-theme=dark] .glass-intensity-control,
+html[data-theme=dark] .amount-chips button,
+html[data-theme=dark] .mini-link,
+html[data-theme=dark] .ghost-button{
+  background:
+    linear-gradient(155deg, rgb(var(--dt-theme-highlight-rgb) / calc(.045 + var(--dt-glass-strength) * .08)), rgb(var(--dt-theme-surface-rgb) / calc(.28 + var(--dt-glass-strength) * .20)))!important;
+  border-color:color-mix(in srgb, rgb(var(--dt-theme-highlight-rgb)) calc(11% + var(--dt-glass-strength) * 12%), transparent)!important;
+  box-shadow:inset 0 1px 0 rgb(var(--dt-theme-highlight-rgb) / calc(.08 + var(--dt-glass-strength) * .08)), 0 8px 18px rgb(var(--dt-theme-shadow-rgb) / calc(var(--dt-glass-shadow-a) * .36))!important;
+  backdrop-filter:blur(var(--dt-glass-control-blur)) saturate(calc(var(--dt-glass-saturation) - 12%))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-control-blur)) saturate(calc(var(--dt-glass-saturation) - 12%))!important;
+}
+.amount-wrap input,
+.amount-wrap input:focus,
+html[data-theme=dark] .amount-wrap input,
+html[data-theme=dark] .amount-wrap input:focus,
+html[data-theme=light] .amount-wrap input,
+html[data-theme=light] .amount-wrap input:focus{
+  background:transparent!important;
+  box-shadow:none!important;
+  border:0!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+html[data-theme=dark] .balance-hero:before{
+  background:
+    radial-gradient(circle at 18% -4%, rgb(var(--dt-theme-highlight-rgb) / calc(.13 + var(--dt-glass-strength) * .22)), transparent 42%),
+    radial-gradient(circle at 100% 95%, rgb(var(--accent-2) / calc(.10 + var(--dt-glass-strength) * .14)), transparent 34%)!important;
+}
+html[data-theme=dark] .balance-hero:after{
+  display:var(--dt-hero-glow-display)!important;
+  background:radial-gradient(circle at 48% 42%, rgb(var(--dt-theme-highlight-rgb) / .68), transparent 45%), linear-gradient(135deg,var(--accent-1),var(--accent-2))!important;
+  opacity:calc(var(--dt-hero-glow-opacity) * .92)!important;
+  filter:blur(var(--dt-hero-glow-blur))!important;
+}
+html[data-theme=dark] .out-card{
+  background:
+    linear-gradient(155deg, rgba(255,96,96,calc(.10 + var(--dt-glass-strength) * .13)), transparent 68%),
+    radial-gradient(125% 140% at 12% -18%, rgb(var(--dt-theme-highlight-rgb) / calc(.09 + var(--dt-glass-strength) * .13)), transparent 42%),
+    linear-gradient(155deg, rgb(var(--dt-theme-surface-strong-rgb) / var(--dt-glass-panel-a1)), rgb(var(--dt-theme-surface-rgb) / var(--dt-glass-panel-a2)))!important;
+}
+html[data-theme=dark] .in-card{
+  background:
+    linear-gradient(155deg, rgba(61,220,132,calc(.09 + var(--dt-glass-strength) * .12)), transparent 68%),
+    radial-gradient(125% 140% at 12% -18%, rgb(var(--dt-theme-highlight-rgb) / calc(.08 + var(--dt-glass-strength) * .12)), transparent 42%),
+    linear-gradient(155deg, rgb(var(--dt-theme-surface-strong-rgb) / var(--dt-glass-panel-a1)), rgb(var(--dt-theme-surface-rgb) / var(--dt-glass-panel-a2)))!important;
+}
+
+/* Light mode gets the same tinted-glass personality instead of plain clear white. */
+html[data-theme=light] .glass,
+html[data-theme=light] .glass-lite,
+html[data-theme=light] .glass-strong,
+html[data-theme=light] .quick-card,
+html[data-theme=light] .record-card-body,
+html[data-theme=light] .profile-manager-row,
+html[data-theme=light] .selection-summary-bar,
+html[data-theme=light] .profile-sheet,
+html[data-theme=light] .summary-sheet,
+html[data-theme=light] .edit-sheet,
+html[data-theme=light] .calculator-sheet,
+html[data-theme=light] .filter-sheet,
+html[data-theme=light] .quick-add-sheet,
+html[data-theme=light] .choice-sheet{
+  background:
+    radial-gradient(135% 165% at 12% -24%, rgb(var(--dt-theme-light-highlight-rgb) / calc(.40 + var(--dt-glass-strength) * .22)), transparent 44%),
+    radial-gradient(115% 125% at 100% 105%, rgb(var(--accent-1) / calc(.05 + var(--dt-glass-strength) * .12)), transparent 48%),
+    linear-gradient(155deg, rgb(var(--dt-theme-light-surface-strong-rgb) / var(--dt-light-panel-a1)), rgb(var(--dt-theme-light-surface-rgb) / var(--dt-light-panel-a2)))!important;
+  border-color:color-mix(in srgb, rgb(var(--dt-theme-surface-rgb)) calc(10% + var(--dt-glass-strength) * 12%), transparent)!important;
+  box-shadow:
+    0 14px 34px rgb(var(--dt-theme-light-shadow-rgb) / var(--dt-light-shadow-a)),
+    inset 0 1px 0 rgb(255 255 255 / calc(.50 + var(--dt-glass-strength) * .26)),
+    inset 0 -1px 0 rgba(0,0,0,.055)!important;
+  backdrop-filter:blur(var(--dt-glass-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-blur)) saturate(var(--dt-glass-saturation))!important;
+}
+html[data-theme=light] .topbar,
+html[data-theme=light] .bottom-nav{
+  background:
+    radial-gradient(120% 150% at 14% -35%, rgb(var(--dt-theme-light-highlight-rgb) / calc(.38 + var(--dt-glass-strength) * .20)), transparent 42%),
+    linear-gradient(155deg, rgb(var(--dt-theme-light-bar-rgb) / var(--dt-light-bar-a1)), rgb(var(--dt-theme-light-surface-rgb) / var(--dt-light-bar-a2)))!important;
+  border-color:color-mix(in srgb, rgb(var(--dt-theme-surface-rgb)) calc(9% + var(--dt-glass-strength) * 11%), transparent)!important;
+  box-shadow:0 10px 28px rgb(var(--dt-theme-light-shadow-rgb) / var(--dt-light-shadow-a)), inset 0 1px 0 rgba(255,255,255,.76)!important;
+  backdrop-filter:blur(var(--dt-glass-bar-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-bar-blur)) saturate(var(--dt-glass-saturation))!important;
+}
+html[data-theme=light] input,
+html[data-theme=light] textarea,
+html[data-theme=light] select,
+html[data-theme=light] .amount-wrap,
+html[data-theme=light] .calc-display-shell,
+html[data-theme=light] .choice-option,
+html[data-theme=light] .profile-option,
+html[data-theme=light] .glass-intensity-control,
+html[data-theme=light] .amount-chips button,
+html[data-theme=light] .mini-link,
+html[data-theme=light] .ghost-button{
+  background:
+    linear-gradient(155deg, rgb(255 255 255 / calc(.52 + var(--dt-glass-strength) * .26)), rgb(var(--dt-theme-light-surface-rgb) / calc(.62 + var(--dt-glass-strength) * .20)))!important;
+  border-color:color-mix(in srgb, rgb(var(--dt-theme-surface-rgb)) calc(8% + var(--dt-glass-strength) * 10%), transparent)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.76), 0 8px 18px rgb(var(--dt-theme-light-shadow-rgb) / calc(var(--dt-light-shadow-a) * .42))!important;
+  backdrop-filter:blur(var(--dt-glass-control-blur)) saturate(var(--dt-glass-saturation))!important;
+  -webkit-backdrop-filter:blur(var(--dt-glass-control-blur)) saturate(var(--dt-glass-saturation))!important;
+}
+html[data-theme=light] .balance-hero:before{
+  background:
+    radial-gradient(circle at 18% -4%, rgb(255 255 255 / calc(.45 + var(--dt-glass-strength) * .20)), transparent 42%),
+    radial-gradient(circle at 100% 95%, rgb(var(--accent-2) / calc(.055 + var(--dt-glass-strength) * .10)), transparent 34%)!important;
+}
+html[data-theme=light] .balance-hero:after{
+  display:var(--dt-hero-glow-display)!important;
+  background:radial-gradient(circle at 48% 42%, rgb(var(--dt-theme-light-highlight-rgb) / .78), transparent 45%), linear-gradient(135deg,var(--accent-1),var(--accent-2))!important;
+  opacity:calc(var(--dt-hero-glow-opacity) * .48)!important;
+  filter:blur(var(--dt-hero-glow-blur))!important;
+}
+html[data-theme=light] .out-card{
+  background:
+    linear-gradient(155deg, rgba(200,55,47,calc(.055 + var(--dt-glass-strength) * .09)), transparent 68%),
+    linear-gradient(155deg, rgb(var(--dt-theme-light-surface-strong-rgb) / var(--dt-light-panel-a1)), rgb(var(--dt-theme-light-surface-rgb) / var(--dt-light-panel-a2)))!important;
+}
+html[data-theme=light] .in-card{
+  background:
+    linear-gradient(155deg, rgba(31,157,85,calc(.05 + var(--dt-glass-strength) * .08)), transparent 68%),
+    linear-gradient(155deg, rgb(var(--dt-theme-light-surface-strong-rgb) / var(--dt-light-panel-a1)), rgb(var(--dt-theme-light-surface-rgb) / var(--dt-light-panel-a2)))!important;
+}
+
+/* Christmas gets the old favorite warm green/gold living-glass mood. */
+html[data-template=christmas][data-theme=dark] .balance-hero,
+html[data-template=christmas][data-theme=dark] .stat-card,
+html[data-template=christmas][data-theme=dark] .panel,
+html[data-template=christmas][data-theme=dark] .quick-card,
+html[data-template=christmas][data-theme=dark] .bottom-nav,
+html[data-template=christmas][data-theme=dark] .topbar{
+  border-color:rgba(244,198,124,calc(.16 + var(--dt-glass-strength) * .13))!important;
+}
+html[data-template=christmas][data-theme=dark] .currency-card-btn.active,
+html[data-template=christmas][data-theme=dark] .nav-item.active,
+html[data-template=christmas][data-theme=dark] .primary-button{
+  background:linear-gradient(135deg,#ffd18a,#ff6e67)!important;
+  color:#251206!important;
+}
+html[data-template=christmas][data-theme=light] .currency-card-btn.active,
+html[data-template=christmas][data-theme=light] .nav-item.active,
+html[data-template=christmas][data-theme=light] .primary-button{
+  background:linear-gradient(135deg,#ffcf88,#ff6f68)!important;
+  color:#241104!important;
+}
+
+/* Slider levels: hide cost in Cooler, keep static ambience for Balanced/Luxe. */
+html[data-glass-level=cool] .aurora-bg,
+html[data-glass-level=cool] .orb{display:none!important;}
+html.thermal-lite[data-glass-level=balanced] .aurora-bg,
+html.thermal-lite[data-glass-level=balanced] .orb,
+html.thermal-lite[data-glass-level=luxe] .aurora-bg,
+html.thermal-lite[data-glass-level=luxe] .orb{display:block!important;}
+html.thermal-lite[data-glass-level=balanced] .orb,
+html.thermal-lite[data-glass-level=luxe] .orb{animation:none!important;transform:none!important;will-change:auto!important;}
+html.thermal-lite[data-glass-level=balanced] .orb{filter:blur(34px)!important;opacity:.20!important;}
+html.thermal-lite[data-glass-level=luxe] .orb{filter:blur(42px)!important;opacity:.38!important;}
+html[data-glass-level=luxe] .balance-hero:before{opacity:1!important;}
+html[data-glass-level=balanced] .balance-hero:before{opacity:.82!important;}
+html[data-glass-level=cool] .balance-hero:before{opacity:.58!important;}
+
+/* iPhone still gets lighter compositing than desktop, but never loses theme color. */
+html.thermal-lite[data-theme=dark] .glass,
+html.thermal-lite[data-theme=dark] .glass-lite,
+html.thermal-lite[data-theme=dark] .glass-strong,
+html.thermal-lite[data-theme=dark] .quick-card,
+html.thermal-lite[data-theme=dark] .record-card-body,
+html.thermal-lite[data-theme=dark] .selection-summary-bar,
+html.thermal-lite[data-theme=dark] .profile-sheet,
+html.thermal-lite[data-theme=dark] .summary-sheet,
+html.thermal-lite[data-theme=dark] .edit-sheet,
+html.thermal-lite[data-theme=dark] .calculator-sheet,
+html.thermal-lite[data-theme=dark] .filter-sheet,
+html.thermal-lite[data-theme=dark] .quick-add-sheet{
+  backdrop-filter:blur(clamp(8px, calc(var(--dt-glass-blur) * .68), 18px)) saturate(clamp(118%, calc(var(--dt-glass-saturation) - 12%), 155%))!important;
+  -webkit-backdrop-filter:blur(clamp(8px, calc(var(--dt-glass-blur) * .68), 18px)) saturate(clamp(118%, calc(var(--dt-glass-saturation) - 12%), 155%))!important;
+}
+html.thermal-lite[data-theme=light] .glass,
+html.thermal-lite[data-theme=light] .glass-lite,
+html.thermal-lite[data-theme=light] .glass-strong,
+html.thermal-lite[data-theme=light] .quick-card,
+html.thermal-lite[data-theme=light] .record-card-body,
+html.thermal-lite[data-theme=light] .profile-sheet,
+html.thermal-lite[data-theme=light] .summary-sheet,
+html.thermal-lite[data-theme=light] .edit-sheet,
+html.thermal-lite[data-theme=light] .calculator-sheet,
+html.thermal-lite[data-theme=light] .filter-sheet,
+html.thermal-lite[data-theme=light] .quick-add-sheet{
+  backdrop-filter:blur(clamp(8px, calc(var(--dt-glass-blur) * .70), 18px)) saturate(clamp(118%, calc(var(--dt-glass-saturation) - 10%), 155%))!important;
+  -webkit-backdrop-filter:blur(clamp(8px, calc(var(--dt-glass-blur) * .70), 18px)) saturate(clamp(118%, calc(var(--dt-glass-saturation) - 10%), 155%))!important;
+}
+
+/* Make the graphics slider itself show the theme mood. */
+.glass-range-shell:before{background:rgb(var(--dt-theme-surface-rgb) / .22)!important;border:1px solid color-mix(in srgb, rgb(var(--dt-theme-highlight-rgb)) 18%, transparent)!important;}
+.glass-range-fill{background:linear-gradient(90deg,var(--accent-1),var(--accent-2))!important;box-shadow:0 0 22px color-mix(in srgb,var(--accent-1) 34%,transparent)!important;}
+html[data-theme=light] .glass-range-shell:before{background:rgb(var(--dt-theme-light-surface-rgb) / .72)!important;border-color:color-mix(in srgb, rgb(var(--dt-theme-surface-rgb)) 14%, transparent)!important;}
