@@ -3369,3 +3369,296 @@ html[data-theme=light] .quick-add-backdrop{
     transform:none!important;
   }
 }
+
+
+/* ===== alpha.6 theme rework: colored glass consistency across all signature themes ===== */
+html[data-template=pink] .theme-signature,
+html[data-template=christmas] .theme-signature,
+html[data-template=web] .theme-signature,
+html[data-template=symbiote] .theme-signature,
+html[data-template=blush] .theme-signature,
+html[data-template=ocean] .theme-signature,
+html[data-template=pearl] .theme-signature{
+  background:none !important;
+  opacity:.98;
+}
+html[data-template=pink] .theme-signature > span,
+html[data-template=christmas] .theme-signature > span,
+html[data-template=web] .theme-signature > span,
+html[data-template=symbiote] .theme-signature > span,
+html[data-template=blush] .theme-signature > span,
+html[data-template=ocean] .theme-signature > span,
+html[data-template=pearl] .theme-signature > span{display:none !important;}
+
+/* Shared lively card tint so dark mode keeps theme color instead of falling back to flat dark. */
+html[data-template=pink][data-theme=dark] .balance-hero,
+html[data-template=pink][data-theme=dark] .stat-card,
+html[data-template=pink][data-theme=dark] .panel,
+html[data-template=pink][data-theme=dark] .quick-card,
+html[data-template=pink][data-theme=dark] .topbar,
+html[data-template=pink][data-theme=dark] .bottom-nav{
+  background:
+    radial-gradient(140% 120% at 16% -8%, rgba(255,242,248,.17), transparent 38%),
+    radial-gradient(115% 98% at 84% 100%, rgba(255,132,182,.15), transparent 46%),
+    linear-gradient(155deg, rgb(136 92 112 / var(--dt-glass-panel-a1)), rgb(80 45 65 / var(--dt-glass-panel-a2))) !important;
+  border-color:rgba(255,203,226,calc(.16 + var(--dt-glass-strength) * .12))!important;
+}
+html[data-template=pink][data-theme=light] .balance-hero,
+html[data-template=pink][data-theme=light] .stat-card,
+html[data-template=pink][data-theme=light] .panel,
+html[data-template=pink][data-theme=light] .quick-card,
+html[data-template=pink][data-theme=light] .topbar,
+html[data-template=pink][data-theme=light] .bottom-nav{
+  background:
+    radial-gradient(145% 122% at 16% -8%, rgba(255,255,255,.62), transparent 38%),
+    radial-gradient(115% 98% at 84% 100%, rgba(255,166,205,.22), transparent 46%),
+    linear-gradient(155deg, rgb(255 245 250 / var(--dt-light-panel-a1)), rgb(250 224 236 / var(--dt-light-panel-a2))) !important;
+  border-color:rgba(204,115,154,.16)!important;
+}
+
+html[data-template=web][data-theme=dark] .balance-hero,
+html[data-template=web][data-theme=dark] .stat-card,
+html[data-template=web][data-theme=dark] .panel,
+html[data-template=web][data-theme=dark] .quick-card,
+html[data-template=web][data-theme=dark] .topbar,
+html[data-template=web][data-theme=dark] .bottom-nav{
+  background:
+    radial-gradient(138% 118% at 18% -10%, rgba(255,248,250,.14), transparent 38%),
+    radial-gradient(110% 96% at 88% 100%, rgba(255,89,108,.14), transparent 46%),
+    linear-gradient(155deg, rgb(123 62 70 / var(--dt-glass-panel-a1)), rgb(72 26 33 / var(--dt-glass-panel-a2))) !important;
+  border-color:rgba(255,179,187,calc(.16 + var(--dt-glass-strength) * .12))!important;
+}
+html[data-template=web][data-theme=light] .balance-hero,
+html[data-template=web][data-theme=light] .stat-card,
+html[data-template=web][data-theme=light] .panel,
+html[data-template=web][data-theme=light] .quick-card,
+html[data-template=web][data-theme=light] .topbar,
+html[data-template=web][data-theme=light] .bottom-nav{
+  background:
+    radial-gradient(145% 122% at 16% -8%, rgba(255,255,255,.64), transparent 38%),
+    radial-gradient(115% 98% at 84% 100%, rgba(255,143,160,.20), transparent 46%),
+    linear-gradient(155deg, rgb(255 243 246 / var(--dt-light-panel-a1)), rgb(248 222 228 / var(--dt-light-panel-a2))) !important;
+  border-color:rgba(175,65,78,.16)!important;
+}
+
+html[data-template=symbiote][data-theme=dark] .balance-hero,
+html[data-template=symbiote][data-theme=dark] .stat-card,
+html[data-template=symbiote][data-theme=dark] .panel,
+html[data-template=symbiote][data-theme=dark] .quick-card,
+html[data-template=symbiote][data-theme=dark] .topbar,
+html[data-template=symbiote][data-theme=dark] .bottom-nav{
+  background:
+    radial-gradient(140% 120% at 16% -10%, rgba(255,255,255,.14), transparent 38%),
+    radial-gradient(112% 100% at 84% 102%, rgba(143,178,214,.12), transparent 46%),
+    linear-gradient(155deg, rgb(96 104 118 / var(--dt-glass-panel-a1)), rgb(43 47 56 / var(--dt-glass-panel-a2))) !important;
+  border-color:rgba(214,226,244,calc(.15 + var(--dt-glass-strength) * .10))!important;
+}
+html[data-template=symbiote][data-theme=light] .balance-hero,
+html[data-template=symbiote][data-theme=light] .stat-card,
+html[data-template=symbiote][data-theme=light] .panel,
+html[data-template=symbiote][data-theme=light] .quick-card,
+html[data-template=symbiote][data-theme=light] .topbar,
+html[data-template=symbiote][data-theme=light] .bottom-nav{
+  background:
+    radial-gradient(145% 122% at 16% -8%, rgba(255,255,255,.68), transparent 38%),
+    radial-gradient(115% 98% at 84% 100%, rgba(170,196,222,.18), transparent 46%),
+    linear-gradient(155deg, rgb(253 254 255 / var(--dt-light-panel-a1)), rgb(228 233 240 / var(--dt-light-panel-a2))) !important;
+  border-color:rgba(108,124,151,.16)!important;
+}
+
+html[data-template=blush][data-theme=dark] .balance-hero,
+html[data-template=blush][data-theme=dark] .stat-card,
+html[data-template=blush][data-theme=dark] .panel,
+html[data-template=blush][data-theme=dark] .quick-card,
+html[data-template=blush][data-theme=dark] .topbar,
+html[data-template=blush][data-theme=dark] .bottom-nav{
+  background:
+    radial-gradient(140% 120% at 16% -10%, rgba(255,246,251,.15), transparent 38%),
+    radial-gradient(112% 100% at 84% 102%, rgba(240,125,182,.14), transparent 46%),
+    linear-gradient(155deg, rgb(136 82 110 / var(--dt-glass-panel-a1)), rgb(78 39 59 / var(--dt-glass-panel-a2))) !important;
+  border-color:rgba(255,205,229,calc(.16 + var(--dt-glass-strength) * .10))!important;
+}
+html[data-template=blush][data-theme=light] .balance-hero,
+html[data-template=blush][data-theme=light] .stat-card,
+html[data-template=blush][data-theme=light] .panel,
+html[data-template=blush][data-theme=light] .quick-card,
+html[data-template=blush][data-theme=light] .topbar,
+html[data-template=blush][data-theme=light] .bottom-nav{
+  background:
+    radial-gradient(145% 122% at 16% -8%, rgba(255,255,255,.64), transparent 38%),
+    radial-gradient(115% 98% at 84% 100%, rgba(255,167,210,.22), transparent 46%),
+    linear-gradient(155deg, rgb(255 246 251 / var(--dt-light-panel-a1)), rgb(251 224 237 / var(--dt-light-panel-a2))) !important;
+  border-color:rgba(173,74,115,.16)!important;
+}
+
+html[data-template=ocean][data-theme=dark] .balance-hero,
+html[data-template=ocean][data-theme=dark] .stat-card,
+html[data-template=ocean][data-theme=dark] .panel,
+html[data-template=ocean][data-theme=dark] .quick-card,
+html[data-template=ocean][data-theme=dark] .topbar,
+html[data-template=ocean][data-theme=dark] .bottom-nav{
+  background:
+    radial-gradient(140% 120% at 16% -10%, rgba(231,255,255,.15), transparent 38%),
+    radial-gradient(112% 100% at 84% 102%, rgba(68,192,184,.16), transparent 46%),
+    linear-gradient(155deg, rgb(62 118 127 / var(--dt-glass-panel-a1)), rgb(25 68 76 / var(--dt-glass-panel-a2))) !important;
+  border-color:rgba(190,255,252,calc(.16 + var(--dt-glass-strength) * .12))!important;
+}
+html[data-template=ocean][data-theme=light] .balance-hero,
+html[data-template=ocean][data-theme=light] .stat-card,
+html[data-template=ocean][data-theme=light] .panel,
+html[data-template=ocean][data-theme=light] .quick-card,
+html[data-template=ocean][data-theme=light] .topbar,
+html[data-template=ocean][data-theme=light] .bottom-nav{
+  background:
+    radial-gradient(145% 122% at 16% -8%, rgba(255,255,255,.68), transparent 38%),
+    radial-gradient(115% 98% at 84% 100%, rgba(133,232,226,.20), transparent 46%),
+    linear-gradient(155deg, rgb(246 255 255 / var(--dt-light-panel-a1)), rgb(221 243 244 / var(--dt-light-panel-a2))) !important;
+  border-color:rgba(36,122,132,.16)!important;
+}
+
+html[data-template=pearl][data-theme=dark] .balance-hero,
+html[data-template=pearl][data-theme=dark] .stat-card,
+html[data-template=pearl][data-theme=dark] .panel,
+html[data-template=pearl][data-theme=dark] .quick-card,
+html[data-template=pearl][data-theme=dark] .topbar,
+html[data-template=pearl][data-theme=dark] .bottom-nav{
+  background:
+    radial-gradient(140% 120% at 16% -10%, rgba(255,255,255,.16), transparent 38%),
+    radial-gradient(112% 100% at 84% 102%, rgba(180,202,236,.12), transparent 46%),
+    linear-gradient(155deg, rgb(110 120 136 / var(--dt-glass-panel-a1)), rgb(55 61 73 / var(--dt-glass-panel-a2))) !important;
+  border-color:rgba(229,240,255,calc(.16 + var(--dt-glass-strength) * .10))!important;
+}
+html[data-template=pearl][data-theme=light] .balance-hero,
+html[data-template=pearl][data-theme=light] .stat-card,
+html[data-template=pearl][data-theme=light] .panel,
+html[data-template=pearl][data-theme=light] .quick-card,
+html[data-template=pearl][data-theme=light] .topbar,
+html[data-template=pearl][data-theme=light] .bottom-nav{
+  background:
+    radial-gradient(145% 122% at 16% -8%, rgba(255,255,255,.70), transparent 38%),
+    radial-gradient(115% 98% at 84% 100%, rgba(203,216,236,.18), transparent 46%),
+    linear-gradient(155deg, rgb(255 255 255 / var(--dt-light-panel-a1)), rgb(229 234 241 / var(--dt-light-panel-a2))) !important;
+  border-color:rgba(104,118,145,.16)!important;
+}
+
+/* Make each signature feel alive and sit cleanly on the top edge of the main card. */
+html[data-template=christmas] .theme-signature{
+  top:10px; right:0; width:124px; height:52px; filter:drop-shadow(0 10px 18px rgba(35,55,28,.18));
+}
+html[data-template=christmas] .theme-signature:before{
+  content:""; inset:4px 0 auto auto; width:120px; height:22px; border-radius:18px 18px 14px 14px;
+  background:
+    radial-gradient(circle at 12px 14px, rgba(255,255,255,.95) 0 11px, transparent 12px),
+    radial-gradient(circle at 36px 12px, rgba(255,255,255,.96) 0 12px, transparent 13px),
+    radial-gradient(circle at 64px 14px, rgba(255,255,255,.95) 0 12px, transparent 13px),
+    radial-gradient(circle at 92px 12px, rgba(255,255,255,.95) 0 11px, transparent 12px),
+    radial-gradient(circle at 110px 14px, rgba(255,255,255,.94) 0 8px, transparent 9px);
+  opacity:.92;
+}
+html[data-template=christmas] .theme-signature:after{
+  content:""; inset:18px 6px auto auto; width:112px; height:24px;
+  background:
+    radial-gradient(circle at 12px 18px, rgba(255,235,180,.86) 0 4px, transparent 5px),
+    radial-gradient(circle at 34px 18px, rgba(255,216,140,.82) 0 4px, transparent 5px),
+    radial-gradient(circle at 57px 18px, rgba(255,235,180,.84) 0 4px, transparent 5px),
+    radial-gradient(circle at 80px 18px, rgba(232,96,96,.68) 0 4px, transparent 5px),
+    radial-gradient(circle at 102px 18px, rgba(156,220,152,.72) 0 4px, transparent 5px),
+    linear-gradient(180deg, rgba(108,88,54,.46), rgba(108,88,54,0) 70%);
+  background-size:auto,auto,auto,auto,auto,2px 16px;
+  background-repeat:no-repeat;
+  background-position:0 0,0 0,0 0,0 0,0 0,10px 6px;
+  opacity:.84;
+}
+
+html[data-template=pink] .theme-signature{
+  top:10px; right:2px; width:118px; height:56px; filter:drop-shadow(0 10px 18px rgba(83,35,55,.16));
+}
+html[data-template=pink] .theme-signature:before{
+  content:""; inset:8px 4px auto auto; width:108px; height:34px;
+  background:
+    radial-gradient(circle at 82px 10px, rgba(255,246,250,.98) 0 4px, rgba(255,205,227,.92) 5px 9px, transparent 10px),
+    radial-gradient(circle at 62px 18px, rgba(255,246,250,.96) 0 4px, rgba(255,188,217,.88) 5px 9px, transparent 10px),
+    radial-gradient(circle at 42px 12px, rgba(255,246,250,.95) 0 4px, rgba(255,178,210,.82) 5px 8px, transparent 9px),
+    radial-gradient(circle at 22px 20px, rgba(255,246,250,.94) 0 4px, rgba(255,196,219,.78) 5px 8px, transparent 9px),
+    radial-gradient(circle at 95px 24px, rgba(255,226,239,.54) 0 3px, transparent 4px),
+    radial-gradient(circle at 72px 30px, rgba(255,214,232,.42) 0 2px, transparent 3px);
+  opacity:.98;
+}
+html[data-template=pink] .theme-signature:after{
+  content:""; inset:0 0 auto auto; width:114px; height:10px;
+  background:linear-gradient(180deg, rgba(255,255,255,.18), transparent 100%);
+  opacity:.24;
+}
+
+html[data-template=web] .theme-signature{
+  top:8px; right:4px; width:112px; height:56px; filter:drop-shadow(0 10px 18px rgba(45,0,8,.18));
+}
+html[data-template=web] .theme-signature:before{
+  content:""; inset:0 0 auto auto; width:94px; height:40px;
+  background:
+    linear-gradient(135deg, transparent 0 49%, rgba(255,255,255,.42) 50%, transparent 51%),
+    linear-gradient(108deg, transparent 0 56%, rgba(255,255,255,.26) 57%, transparent 58%),
+    linear-gradient(155deg, transparent 0 56%, rgba(255,107,124,.28) 57%, transparent 58%);
+  border-top:1px solid rgba(255,255,255,.22);
+  border-left:1px solid rgba(255,255,255,.12);
+  border-radius:0 0 0 68px;
+  opacity:.88;
+}
+html[data-template=web] .theme-signature:after{
+  content:""; inset:6px 10px auto auto; width:70px; height:30px;
+  border-top:1px solid rgba(255,255,255,.18);
+  border-left:1px solid rgba(255,255,255,.10);
+  border-radius:0 0 0 54px;
+  box-shadow:-18px 18px 0 -17px rgba(255,255,255,.14), -36px 36px 0 -35px rgba(255,107,124,.18);
+  opacity:.84;
+}
+
+html[data-template=symbiote] .theme-signature{
+  top:10px; right:2px; width:112px; height:58px; filter:drop-shadow(0 12px 20px rgba(0,0,0,.22));
+}
+html[data-template=symbiote] .theme-signature:before{
+  content:""; inset:6px 0 auto auto; width:96px; height:34px; border-radius:76% 24% 68% 32% / 48% 58% 42% 52%;
+  background:linear-gradient(135deg, rgba(255,255,255,.56), rgba(142,154,176,.18) 48%, rgba(0,0,0,.02));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34);
+  transform:rotate(-10deg);
+  opacity:.90;
+}
+html[data-template=symbiote] .theme-signature:after{
+  content:""; inset:28px 12px auto auto; width:40px; height:14px; border-radius:999px;
+  background:rgba(255,255,255,.22); transform:rotate(14deg); opacity:.84;
+}
+
+html[data-template=blush] .theme-signature{
+  top:10px; right:4px; width:110px; height:54px; filter:drop-shadow(0 10px 18px rgba(120,30,70,.16));
+}
+html[data-template=blush] .theme-signature:before{
+  content:"✦"; inset:4px 12px auto auto; width:auto; height:auto; color:rgba(255,236,246,.76); font-size:34px; line-height:1; text-shadow:0 0 18px rgba(255,139,196,.32);
+}
+html[data-template=blush] .theme-signature:after{
+  content:"✧"; inset:24px 54px auto auto; width:auto; height:auto; color:rgba(255,205,230,.54); font-size:18px; line-height:1;
+}
+
+html[data-template=ocean] .theme-signature{
+  top:10px; right:2px; width:114px; height:54px; filter:drop-shadow(0 10px 18px rgba(0,80,100,.18));
+}
+html[data-template=ocean] .theme-signature:before{
+  content:""; inset:15px 4px auto auto; width:84px; height:22px; border-radius:999px;
+  border-bottom:2px solid rgba(170,244,241,.48); border-left:1px solid rgba(170,244,241,.20); transform:rotate(-10deg); opacity:.92;
+}
+html[data-template=ocean] .theme-signature:after{
+  content:""; inset:6px 6px auto auto; width:48px; height:18px;
+  background:radial-gradient(circle at 8px 8px, rgba(255,255,255,.44) 0 3px, transparent 4px), radial-gradient(circle at 22px 6px, rgba(181,255,249,.28) 0 2px, transparent 3px), radial-gradient(circle at 38px 9px, rgba(255,255,255,.36) 0 2px, transparent 3px);
+  opacity:.84;
+}
+
+html[data-template=pearl] .theme-signature{
+  top:10px; right:4px; width:110px; height:54px; filter:drop-shadow(0 10px 18px rgba(35,45,70,.14));
+}
+html[data-template=pearl] .theme-signature:before{
+  content:""; inset:8px 8px auto auto; width:64px; height:20px;
+  background:radial-gradient(circle at 10px 10px, rgba(255,255,255,.68) 0 5px, transparent 6px), radial-gradient(circle at 30px 9px, rgba(235,242,255,.60) 0 5px, transparent 6px), radial-gradient(circle at 50px 10px, rgba(255,255,255,.58) 0 5px, transparent 6px);
+  opacity:.94;
+}
+html[data-template=pearl] .theme-signature:after{
+  content:"✦"; inset:1px 2px auto auto; width:auto; height:auto; color:rgba(255,255,255,.68); font-size:22px; line-height:1; text-shadow:0 0 14px rgba(210,230,255,.26);
+}
