@@ -3662,3 +3662,202 @@ html[data-template=pearl] .theme-signature:before{
 html[data-template=pearl] .theme-signature:after{
   content:"✦"; inset:1px 2px auto auto; width:auto; height:auto; color:rgba(255,255,255,.68); font-size:22px; line-height:1; text-shadow:0 0 14px rgba(210,230,255,.26);
 }
+
+
+/* ===== alpha.7 visible signature-card decorations =====
+   Fix: earlier SVG-era CSS hid pseudo-elements with !important. This block is
+   last on purpose so the balance-card decorations actually render. */
+html[data-template=pink] .theme-signature,
+html[data-template=christmas] .theme-signature,
+html[data-template=web] .theme-signature,
+html[data-template=symbiote] .theme-signature,
+html[data-template=blush] .theme-signature,
+html[data-template=ocean] .theme-signature,
+html[data-template=pearl] .theme-signature{
+  display:block!important;
+  overflow:visible!important;
+  opacity:1!important;
+  background:none!important;
+  z-index:2!important;
+  pointer-events:none!important;
+}
+html[data-template=pink] .theme-signature:before,
+html[data-template=pink] .theme-signature:after,
+html[data-template=christmas] .theme-signature:before,
+html[data-template=christmas] .theme-signature:after,
+html[data-template=web] .theme-signature:before,
+html[data-template=web] .theme-signature:after,
+html[data-template=symbiote] .theme-signature:before,
+html[data-template=symbiote] .theme-signature:after,
+html[data-template=blush] .theme-signature:before,
+html[data-template=blush] .theme-signature:after,
+html[data-template=ocean] .theme-signature:before,
+html[data-template=ocean] .theme-signature:after,
+html[data-template=pearl] .theme-signature:before,
+html[data-template=pearl] .theme-signature:after{
+  display:block!important;
+  position:absolute!important;
+  pointer-events:none!important;
+}
+
+html[data-template=pink] .theme-signature{
+  top:6px!important;
+  right:6px!important;
+  width:132px!important;
+  height:62px!important;
+  filter:drop-shadow(0 10px 16px rgba(155,52,96,.22))!important;
+}
+html[data-template=pink] .theme-signature:before{
+  content:""!important;
+  inset:8px 4px auto auto!important;
+  width:120px!important;
+  height:38px!important;
+  background:
+    radial-gradient(ellipse at 88px 12px, rgba(255,249,252,.98) 0 13%, rgba(255,190,220,.86) 14% 30%, transparent 31%),
+    radial-gradient(ellipse at 72px 23px, rgba(255,248,252,.96) 0 13%, rgba(255,177,212,.82) 14% 31%, transparent 32%),
+    radial-gradient(ellipse at 52px 14px, rgba(255,248,252,.95) 0 12%, rgba(255,185,214,.78) 13% 29%, transparent 30%),
+    radial-gradient(ellipse at 31px 25px, rgba(255,246,251,.94) 0 12%, rgba(255,204,225,.76) 13% 28%, transparent 29%),
+    radial-gradient(ellipse at 106px 29px, rgba(255,223,238,.68) 0 8%, transparent 9%),
+    radial-gradient(ellipse at 18px 9px, rgba(255,231,242,.54) 0 7%, transparent 8%);
+  opacity:.98!important;
+  transform:rotate(-4deg)!important;
+}
+html[data-template=pink] .theme-signature:after{
+  content:""!important;
+  inset:2px 14px auto auto!important;
+  width:96px!important;
+  height:8px!important;
+  border-radius:999px!important;
+  background:linear-gradient(90deg, transparent, rgba(255,238,246,.38), transparent)!important;
+  opacity:.9!important;
+}
+html[data-template=pink] .balance-hero:before{
+  background:
+    radial-gradient(circle at 17% -4%, rgba(255,243,248,.24), transparent 42%),
+    radial-gradient(circle at 100% 95%, rgba(255,121,177,.15), transparent 36%)!important;
+}
+
+html[data-template=christmas] .theme-signature{
+  top:8px!important;
+  right:8px!important;
+  width:126px!important;
+  height:58px!important;
+  filter:drop-shadow(0 10px 16px rgba(30,60,30,.20))!important;
+}
+html[data-template=christmas] .theme-signature:before{
+  content:""!important;
+  inset:6px 0 auto auto!important;
+  width:122px!important;
+  height:24px!important;
+  border-radius:18px 18px 16px 16px!important;
+  background:
+    radial-gradient(circle at 12px 14px, rgba(255,255,255,.98) 0 11px, transparent 12px),
+    radial-gradient(circle at 36px 12px, rgba(255,255,255,.98) 0 12px, transparent 13px),
+    radial-gradient(circle at 64px 15px, rgba(255,255,255,.97) 0 12px, transparent 13px),
+    radial-gradient(circle at 92px 12px, rgba(255,255,255,.97) 0 11px, transparent 12px),
+    radial-gradient(circle at 112px 15px, rgba(255,255,255,.95) 0 8px, transparent 9px)!important;
+  opacity:.96!important;
+}
+html[data-template=christmas] .theme-signature:after{
+  content:""!important;
+  inset:22px 8px auto auto!important;
+  width:108px!important;
+  height:26px!important;
+  background:
+    radial-gradient(circle at 10px 15px, rgba(255,224,156,.86) 0 4px, transparent 5px),
+    radial-gradient(circle at 32px 16px, rgba(255,210,130,.86) 0 4px, transparent 5px),
+    radial-gradient(circle at 55px 15px, rgba(255,232,180,.88) 0 4px, transparent 5px),
+    radial-gradient(circle at 78px 16px, rgba(232,96,96,.72) 0 4px, transparent 5px),
+    radial-gradient(circle at 100px 15px, rgba(164,226,164,.76) 0 4px, transparent 5px)!important;
+  opacity:.9!important;
+}
+
+html[data-template=web] .theme-signature{
+  top:6px!important; right:6px!important; width:118px!important; height:62px!important;
+  filter:drop-shadow(0 10px 16px rgba(90,0,14,.24))!important;
+}
+html[data-template=web] .theme-signature:before{
+  content:""!important; inset:2px 0 auto auto!important; width:104px!important; height:48px!important;
+  border-top:1.5px solid rgba(255,245,247,.34)!important;
+  border-left:1.5px solid rgba(255,245,247,.18)!important;
+  border-radius:0 0 0 82px!important;
+  background:
+    linear-gradient(136deg, transparent 0 49%, rgba(255,245,247,.44) 50%, transparent 51%),
+    linear-gradient(112deg, transparent 0 56%, rgba(255,137,151,.24) 57%, transparent 58%)!important;
+  opacity:.9!important;
+}
+html[data-template=web] .theme-signature:after{
+  content:""!important; inset:13px 12px auto auto!important; width:78px!important; height:32px!important;
+  border-top:1px solid rgba(255,245,247,.20)!important;
+  border-left:1px solid rgba(255,245,247,.13)!important;
+  border-radius:0 0 0 64px!important;
+  box-shadow:-20px 20px 0 -19px rgba(255,245,247,.15), -38px 38px 0 -37px rgba(255,107,124,.20)!important;
+}
+
+html[data-template=symbiote] .theme-signature{
+  top:8px!important; right:8px!important; width:120px!important; height:64px!important;
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.26))!important;
+}
+html[data-template=symbiote] .theme-signature:before{
+  content:""!important; inset:8px 2px auto auto!important; width:100px!important; height:36px!important;
+  border-radius:76% 24% 68% 32% / 48% 58% 42% 52%!important;
+  background:radial-gradient(circle at 78% 28%, rgba(255,255,255,.72) 0 6%, transparent 8%), linear-gradient(135deg, rgba(255,255,255,.58), rgba(142,154,176,.18) 52%, rgba(0,0,0,.03))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38)!important;
+  transform:rotate(-10deg)!important;
+}
+html[data-template=symbiote] .theme-signature:after{
+  content:""!important; inset:34px 16px auto auto!important; width:42px!important; height:15px!important; border-radius:999px!important;
+  background:rgba(255,255,255,.24)!important; transform:rotate(14deg)!important;
+}
+
+html[data-template=blush] .theme-signature{
+  top:7px!important; right:8px!important; width:116px!important; height:60px!important;
+  filter:drop-shadow(0 10px 16px rgba(140,36,82,.20))!important;
+}
+html[data-template=blush] .theme-signature:before{
+  content:"✦"!important; inset:5px 8px auto auto!important; width:auto!important; height:auto!important;
+  color:rgba(255,236,246,.88)!important; font-size:38px!important; line-height:1!important; text-shadow:0 0 18px rgba(255,139,196,.44)!important;
+}
+html[data-template=blush] .theme-signature:after{
+  content:"✧"!important; inset:29px 54px auto auto!important; width:auto!important; height:auto!important;
+  color:rgba(255,205,230,.64)!important; font-size:18px!important; line-height:1!important;
+}
+
+html[data-template=ocean] .theme-signature{
+  top:8px!important; right:8px!important; width:120px!important; height:58px!important;
+  filter:drop-shadow(0 10px 16px rgba(0,80,100,.20))!important;
+}
+html[data-template=ocean] .theme-signature:before{
+  content:""!important; inset:20px 4px auto auto!important; width:90px!important; height:24px!important; border-radius:999px!important;
+  border-bottom:2px solid rgba(190,255,252,.54)!important; border-left:1px solid rgba(190,255,252,.25)!important; transform:rotate(-10deg)!important;
+}
+html[data-template=ocean] .theme-signature:after{
+  content:""!important; inset:8px 8px auto auto!important; width:54px!important; height:20px!important;
+  background:radial-gradient(circle at 8px 8px, rgba(255,255,255,.50) 0 3px, transparent 4px), radial-gradient(circle at 24px 6px, rgba(181,255,249,.34) 0 2px, transparent 3px), radial-gradient(circle at 42px 9px, rgba(255,255,255,.38) 0 2px, transparent 3px)!important;
+}
+
+html[data-template=pearl] .theme-signature{
+  top:8px!important; right:8px!important; width:118px!important; height:58px!important;
+  filter:drop-shadow(0 10px 16px rgba(35,45,70,.18))!important;
+}
+html[data-template=pearl] .theme-signature:before{
+  content:""!important; inset:10px 8px auto auto!important; width:72px!important; height:22px!important;
+  background:radial-gradient(circle at 10px 10px, rgba(255,255,255,.76) 0 5px, transparent 6px), radial-gradient(circle at 34px 9px, rgba(235,242,255,.66) 0 5px, transparent 6px), radial-gradient(circle at 58px 10px, rgba(255,255,255,.62) 0 5px, transparent 6px)!important;
+}
+html[data-template=pearl] .theme-signature:after{
+  content:"✦"!important; inset:2px 2px auto auto!important; width:auto!important; height:auto!important;
+  color:rgba(255,255,255,.76)!important; font-size:24px!important; line-height:1!important; text-shadow:0 0 14px rgba(210,230,255,.36)!important;
+}
+
+@media (max-width:380px){
+  html[data-template=pink] .theme-signature,
+  html[data-template=christmas] .theme-signature,
+  html[data-template=web] .theme-signature,
+  html[data-template=symbiote] .theme-signature,
+  html[data-template=blush] .theme-signature,
+  html[data-template=ocean] .theme-signature,
+  html[data-template=pearl] .theme-signature{
+    transform:scale(.88)!important;
+    transform-origin:top right!important;
+  }
+}
