@@ -1,7 +1,7 @@
 
 "use strict";
 
-const APP_VERSION = "4.0.0-alpha.10.1";
+const APP_VERSION = "4.0.0-alpha.10.2";
 const RECORD_KEY = "dollarTracker.records.v3";
 const SETTINGS_KEY = "dollarTracker.settings.v3";
 const STATE_KEY = "dollarTracker.state.v3";
@@ -1393,6 +1393,25 @@ const debouncedGlassSettingsSave = debounce(() => {
   saveState();
 }, 420);
 
+let glassIntensityFrame = 0;
+function scheduleGlassIntensityPaint() {
+  if (glassIntensityFrame) return;
+  glassIntensityFrame = window.requestAnimationFrame(() => {
+    glassIntensityFrame = 0;
+    applyDocumentSettings();
+    updateGlassIntensityControl();
+  });
+}
+
+function flushGlassIntensityPaint() {
+  if (glassIntensityFrame) {
+    window.cancelAnimationFrame(glassIntensityFrame);
+    glassIntensityFrame = 0;
+  }
+  applyDocumentSettings();
+  updateGlassIntensityControl();
+}
+
 const debouncedHistorySearchRender = debounce(() => {
   resetHistoryVisibleCount();
   saveState();
@@ -2339,7 +2358,9 @@ function updateGlassIntensityControl() {
   const value = $("#glassIntensityValue");
   const fill = $("#glassIntensityFill");
   const shell = $(".glass-range-shell");
+  const labels = $$(".glass-range-labels span");
   const intensity = clampGlassIntensity(settings.glassIntensity);
+  const level = glassLevelForIntensity(intensity);
   const label = glassLabelForIntensity(intensity);
   const progress = (intensity / 100).toFixed(2);
   if (input) {
@@ -2347,11 +2368,16 @@ function updateGlassIntensityControl() {
     input.setAttribute("aria-valuetext", `${label} · ${intensity}%`);
   }
   if (value) value.textContent = `${label} · ${intensity}%`;
-  if (shell) shell.style.setProperty("--glass-progress", progress);
+  if (shell) {
+    shell.style.setProperty("--glass-progress", progress);
+    shell.dataset.glassLevel = level;
+  }
   if (fill) {
     fill.style.setProperty("--glass-progress", progress);
     fill.style.width = "";
   }
+  const activeIndex = level === "cool" ? 0 : level === "luxe" ? 2 : 1;
+  labels.forEach((item, index) => item.classList.toggle("is-active", index === activeIndex));
 }
 
 function renderSettingsPage() {
@@ -3683,13 +3709,13 @@ function initEvents() {
   glassIntensityInput?.addEventListener("touchend", stopGlassDrag, { passive: true });
   glassIntensityInput?.addEventListener("input", () => {
     settings.glassIntensity = clampGlassIntensity(glassIntensityInput.value);
-    applyDocumentSettings();
-    updateGlassIntensityControl();
+    scheduleGlassIntensityPaint();
     debouncedGlassSettingsSave();
   });
   glassIntensityInput?.addEventListener("change", () => {
     stopGlassDrag();
     settings.glassIntensity = clampGlassIntensity(glassIntensityInput.value);
+    flushGlassIntensityPaint();
     debouncedGlassSettingsSave.flush?.();
     hapticTick(6);
   });

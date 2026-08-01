@@ -1,10 +1,15 @@
-# v4.0.0-alpha.10.1 — Slider Hotfix
-
-- Replaces the heavier Phase 1 glass slider styling with a cleaner low-overlap control.
-- Keeps the Liquid Glass theme look while reducing new slider-only paint/shadow cost.
-- Keeps the iPhone balance count feedback from alpha.10.
-
 # Changelog
+
+## 4.0.0-alpha.10.2 — Clean Slider Hotfix
+
+- Rebuilt the Glass Intensity slider into a cleaner thin-track control.
+- Removed the visible left/right slider shell caps that looked like extra circles on iPhone.
+- Reduced slider-only shadow and background layers to lower unnecessary paint cost.
+- Added active Cooler/Balanced/Luxe label syncing so Luxe values no longer highlight Balanced.
+- Batched slider repaint work with `requestAnimationFrame` while dragging.
+- Updated `APP_VERSION`, `package.json`, service-worker cache, and cache-busting query strings to `4.0.0-alpha.10.2`.
+- Kept the alpha.10 iPhone balance count animation and transaction feedback.
+- Kept Liquid Glass visuals, theme signatures, storage, backup format, and calculations untouched.
 
 ## 4.0.0-alpha.10 — Phase 2 Transaction Feedback
 

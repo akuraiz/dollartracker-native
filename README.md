@@ -4,13 +4,14 @@ DollarTracker is a local-first USD/KHR money tracker that runs as a PWA today an
 
 ## Current milestone
 
-`v4.0.0-alpha.10.1 — Phase 2 Transaction Feedback`
+`v4.0.0-alpha.10.2 — Clean Slider Hotfix`
 
-- Restores the main balance count animation on iPhone/thermal-lite devices after adding money.
-- Adds focused transaction feedback for Add, Quick Add, Edit, and Delete without reducing Liquid Glass visuals.
-- Fixes Delete so the balance can animate from the previous value instead of jumping instantly.
-- Keeps the slider polish from alpha.9 and the root `index.html` redirect for GitHub Pages.
-- Keeps the native-ready `www/` app structure for Capacitor later.
+- Rebuilds the Glass Intensity slider into a cleaner thin-track control.
+- Removes the visible left/right slider end caps shown on iPhone.
+- Makes the active Cooler/Balanced/Luxe label match the actual value.
+- Batches slider repaint work with `requestAnimationFrame` while dragging.
+- Keeps the alpha.10 iPhone balance count animation and transaction feedback.
+- Keeps Liquid Glass visuals, storage, backup format, and calculations untouched.
 
 ## Live app path
 
