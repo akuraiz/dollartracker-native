@@ -1,3 +1,9 @@
+# v4.0.0-alpha.10.1 — Slider Hotfix
+
+- Replaces the heavier Phase 1 glass slider styling with a cleaner low-overlap control.
+- Keeps the Liquid Glass theme look while reducing new slider-only paint/shadow cost.
+- Keeps the iPhone balance count feedback from alpha.10.
+
 # Changelog
 
 ## 4.0.0-alpha.10 — Phase 2 Transaction Feedback

@@ -1,7 +1,7 @@
 
 "use strict";
 
-const APP_VERSION = "4.0.0-alpha.10";
+const APP_VERSION = "4.0.0-alpha.10.1";
 const RECORD_KEY = "dollarTracker.records.v3";
 const SETTINGS_KEY = "dollarTracker.settings.v3";
 const STATE_KEY = "dollarTracker.state.v3";

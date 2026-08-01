@@ -4,7 +4,7 @@ DollarTracker is a local-first USD/KHR money tracker that runs as a PWA today an
 
 ## Current milestone
 
-`v4.0.0-alpha.10 — Phase 2 Transaction Feedback`
+`v4.0.0-alpha.10.1 — Phase 2 Transaction Feedback`
 
 - Restores the main balance count animation on iPhone/thermal-lite devices after adding money.
 - Adds focused transaction feedback for Add, Quick Add, Edit, and Delete without reducing Liquid Glass visuals.
