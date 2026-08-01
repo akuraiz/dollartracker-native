@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.0.0-alpha.11 — Render Engine Foundation
+
+- Added a central `scheduleRender()` queue so transaction, settings, history filter, import/export, and profile changes can batch their DOM updates into the next animation frame.
+- Added safe render-option merging so balance count animations keep the correct starting balance even when several UI updates happen together.
+- Added a tiny cached-ID helper for repeated fixed text updates and skipped unchanged text writes.
+- Reused the same current-month record set across monthly totals, budgets, chart, and top-category rendering to reduce repeated filtering.
+- Added optional development render timing logs behind `localStorage.setItem("dollarTracker.debugPerf", "1")`.
+- Updated `APP_VERSION`, `package.json`, service-worker cache, and cache-busting query strings to `4.0.0-alpha.11`.
+- Kept Liquid Glass visuals, slider design, theme signatures, storage, backup format, and calculations untouched.
+
 ## 4.0.0-alpha.10.2 — Clean Slider Hotfix
 
 - Rebuilt the Glass Intensity slider into a cleaner thin-track control.

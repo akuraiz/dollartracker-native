@@ -1,7 +1,7 @@
 
 "use strict";
 
-const APP_VERSION = "4.0.0-alpha.10.2";
+const APP_VERSION = "4.0.0-alpha.11";
 const RECORD_KEY = "dollarTracker.records.v3";
 const SETTINGS_KEY = "dollarTracker.settings.v3";
 const STATE_KEY = "dollarTracker.state.v3";
@@ -656,10 +656,10 @@ function budgetForCategoryUSD(category) {
   return Number(settings.categoryBudgets?.[key] || 0);
 }
 
-function monthlySpendingByCategory() {
+function monthlySpendingByCategory(monthRecords = currentMonthRecords()) {
   const spending = {};
   categoryKeys().forEach(key => { spending[key] = 0; });
-  currentMonthRecords().filter(record => record.type === "Out").forEach(record => {
+  monthRecords.filter(record => record.type === "Out").forEach(record => {
     const key = categoryKey(record.category);
     spending[key] += Number(record.amountUSD || 0);
   });
@@ -705,11 +705,11 @@ function saveCategoryBudgets() {
   settings.categoryBudgets = next;
   saveSettings();
   saveState();
-  render();
+  scheduleRender({ reason: "budgets-saved" });
   showToast(tr("budgetsSaved"));
 }
 
-function renderBudgetProgress() {
+function renderBudgetProgress(monthRecords = currentMonthRecords()) {
   const container = $("#budgetProgressList");
   const panel = $("#budgetPanel");
   if (!container) return;
@@ -722,7 +722,7 @@ function renderBudgetProgress() {
   }
   if (panel) panel.classList.remove("hidden");
 
-  const spending = monthlySpendingByCategory();
+  const spending = monthlySpendingByCategory(monthRecords);
   container.innerHTML = activeKeys.map(key => {
     const spent = Number(spending[key] || 0);
     const budget = Number(budgets[key] || 0);
@@ -780,7 +780,7 @@ function addCategory() {
   saveSettings();
   saveState();
   if (input) input.value = "";
-  render({ translate: true });
+  scheduleRender({ translate: true, reason: "category-added" });
   showToast(tr("categoryAdded"));
 }
 
@@ -799,7 +799,7 @@ function renameCategory(id) {
   settings.categories = categoryDefs().map(category => category.id === id ? { ...category, name, nameKey: "" } : category);
   saveSettings();
   saveState();
-  render({ translate: true });
+  scheduleRender({ translate: true, reason: "category-renamed" });
   showToast(tr("categoryRenamed"));
 }
 
@@ -819,7 +819,7 @@ function removeCategory(id) {
   saveRecords();
   saveSettings();
   saveState();
-  render({ translate: true });
+  scheduleRender({ translate: true, reason: "category-removed" });
   showToast(tr("categoryRemoved"));
 }
 
@@ -840,23 +840,23 @@ function resetCategories() {
   saveRecords();
   saveSettings();
   saveState();
-  render({ translate: true });
+  scheduleRender({ translate: true, reason: "categories-reset" });
   showToast(tr("categoriesReset"));
 }
 
-function categoryChartData() {
-  const spending = monthlySpendingByCategory();
+function categoryChartData(monthRecords = currentMonthRecords()) {
+  const spending = monthlySpendingByCategory(monthRecords);
   return categoryKeys()
     .map(key => ({ key, amount: Number(spending[key] || 0) }))
     .filter(item => item.amount > 0)
     .sort((a, b) => b.amount - a.amount);
 }
 
-function renderCategoryChart() {
+function renderCategoryChart(monthRecords = currentMonthRecords()) {
   const container = $("#categoryChartList");
   const panel = $("#categoryChartPanel");
   if (!container) return;
-  const data = categoryChartData();
+  const data = categoryChartData(monthRecords);
   if (!data.length) {
     if (panel) panel.classList.add("hidden");
     container.innerHTML = `<div class="empty-state">${tr("noCategorySpending")}</div>`;
@@ -1356,11 +1356,24 @@ function escapeHTML(value) {
   return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 }
 
-function setText(id, value, html = false) {
+const domCache = new Map();
+function byId(id) {
+  const cached = domCache.get(id);
+  if (cached && cached.isConnected) return cached;
   const el = document.getElementById(id);
+  if (el) domCache.set(id, el);
+  return el;
+}
+
+function setText(id, value, html = false) {
+  const el = byId(id);
   if (!el) return;
-  if (html) el.innerHTML = value;
-  else el.textContent = value;
+  const next = String(value ?? "");
+  if (html) {
+    if (el.innerHTML !== next) el.innerHTML = next;
+  } else if (el.textContent !== next) {
+    el.textContent = next;
+  }
 }
 
 function debounce(fn, delay = 180) {
@@ -1415,8 +1428,40 @@ function flushGlassIntensityPaint() {
 const debouncedHistorySearchRender = debounce(() => {
   resetHistoryVisibleCount();
   saveState();
-  render();
+  scheduleRender({ reason: "history-search" });
 }, 180);
+
+let scheduledRenderFrame = 0;
+let scheduledRenderOptions = null;
+
+function mergeRenderOptions(current = {}, next = {}) {
+  const merged = { ...current, ...next };
+  merged.translate = Boolean(current.translate || next.translate);
+  if (typeof current.animateBalanceFrom === "number") {
+    merged.animateBalanceFrom = current.animateBalanceFrom;
+  } else if (typeof next.animateBalanceFrom === "number") {
+    merged.animateBalanceFrom = next.animateBalanceFrom;
+  }
+  return merged;
+}
+
+function scheduleRender(options = {}) {
+  scheduledRenderOptions = mergeRenderOptions(scheduledRenderOptions || {}, options || {});
+  if (scheduledRenderFrame) return;
+  scheduledRenderFrame = window.requestAnimationFrame(() => {
+    const optionsToRender = scheduledRenderOptions || {};
+    scheduledRenderOptions = null;
+    scheduledRenderFrame = 0;
+    render(optionsToRender);
+  });
+}
+
+function cancelScheduledRender() {
+  if (!scheduledRenderFrame) return;
+  window.cancelAnimationFrame(scheduledRenderFrame);
+  scheduledRenderFrame = 0;
+  scheduledRenderOptions = null;
+}
 
 function syncModalOpenState() {
   const hasOpenSheet = MODAL_BACKDROP_SELECTORS.some(selector => document.querySelector(selector)?.classList.contains("show"));
@@ -1691,7 +1736,7 @@ function switchProfile(id) {
   restoreDraft();
   saveSettings();
   saveState();
-  render({ translate: true });
+  scheduleRender({ translate: true, reason: "switch-profile" });
   showToast(tr("switchedProfile", { profile: target.name }));
 }
 
@@ -1757,7 +1802,7 @@ function archiveProfile(id) {
   }
   saveSettings();
   resetHistorySelectionState();
-  render({ translate: true });
+  scheduleRender({ translate: true, reason: "profile-archive" });
   renderProfileSheet();
   showToast(tr("profileArchived"));
 }
@@ -1790,7 +1835,7 @@ function deleteProfile(id) {
   saveRecords();
   saveSettings();
   resetHistorySelectionState();
-  render({ translate: true });
+  scheduleRender({ translate: true, reason: "profile-delete" });
   renderProfileSheet();
   showToast(tr("profileDeleted"));
 }
@@ -2291,19 +2336,20 @@ function renderHome(options = {}) {
   setText("homeTotalOut", formatMoneyFromUSD(total.totalOutUSD));
   setText("homeRecordCountSmall", `${total.count} ${tr(total.count === 1 ? "record" : "records")}`);
 
-  const monthly = totals(currentMonthRecords());
+  const monthRecords = currentMonthRecords();
+  const monthly = totals(monthRecords);
   setText("monthlyIn", formatMoneyFromUSD(monthly.totalInUSD));
   setText("monthlyOut", formatMoneyFromUSD(monthly.totalOutUSD));
   setText("monthlyBalance", formatMoneyFromUSD(monthly.balanceUSD));
-  setText("monthlyTopCategory", tr("topCategory", { category: topCategoryFor(currentMonthRecords()) }));
+  setText("monthlyTopCategory", tr("topCategory", { category: topCategoryFor(monthRecords) }));
 
   const usedProgress = $("#usedProgress");
   if (usedProgress) usedProgress.style.width = `${total.usedPercent}%`;
   setText("usedProgressText", tr("usedProgress", { percent: total.usedPercent }));
   setText("rateNote", `1 USD = ${Number(settings.exchangeRate || 4000).toLocaleString()}៛`);
 
-  renderBudgetProgress();
-  renderCategoryChart();
+  renderBudgetProgress(monthRecords);
+  renderCategoryChart(monthRecords);
   renderRecordList($("#recentList"), sortedRecords().slice(0, 4), true);
   renderBackupReminder();
 }
@@ -2496,6 +2542,8 @@ function renderSharedPolish() {
 }
 
 function render(options = {}) {
+  if (scheduledRenderFrame) cancelScheduledRender();
+  const renderStartedAt = performance?.now?.() || 0;
   const shouldTranslate = Boolean(options.translate);
   applyDocumentSettings();
   if (shouldTranslate) translateUI();
@@ -2510,6 +2558,11 @@ function render(options = {}) {
   if ($("#summaryBackdrop")?.classList.contains("show")) renderSummary();
   renderSelectionSummary();
   renderSharedPolish();
+
+  if (localStorage.getItem("dollarTracker.debugPerf") === "1" && renderStartedAt) {
+    const elapsed = Math.round(((performance?.now?.() || renderStartedAt) - renderStartedAt) * 10) / 10;
+    console.info(`[DollarTracker] render ${page}: ${elapsed}ms`, options);
+  }
 }
 
 function addRecord(event) {
@@ -2549,7 +2602,7 @@ function addRecord(event) {
   saveRecords();
   saveState();
   setPage("home", { render: false });
-  render({ animateBalanceFrom: previousBalanceUSD });
+  scheduleRender({ animateBalanceFrom: previousBalanceUSD, reason: "transaction" });
   playTransactionFeedback(type === "In" ? "in" : "out");
   showToast(tr("recordSaved"));
   hapticTick(12);
@@ -2573,7 +2626,7 @@ function deleteRecord(id) {
   selectedRecordIds.delete(id);
   saveRecords();
   resetHistoryVisibleCount();
-  render({ animateBalanceFrom: previousBalanceUSD });
+  scheduleRender({ animateBalanceFrom: previousBalanceUSD, reason: "delete-record" });
   playTransactionFeedback("delete");
   showToast(tr("recordDeleted"));
   hapticTick(14);
@@ -2922,7 +2975,7 @@ function useCalculatorAmount() {
   settings.displayCurrency = calcState.currency;
   saveSettings();
   $("#amountInput").value = amount ? String(amount) : "";
-  render();
+  scheduleRender({ reason: "calculator-amount" });
   saveState();
   closeCalculator();
 }
@@ -3007,7 +3060,7 @@ function saveQuickAddRecord(event) {
   saveState();
   closeQuickAdd();
   setPage("home", { render: false });
-  render({ animateBalanceFrom: previousBalanceUSD });
+  scheduleRender({ animateBalanceFrom: previousBalanceUSD, reason: "transaction" });
   playTransactionFeedback(type === "In" ? "in" : "out");
   showToast(tr("recordSaved"));
   hapticTick(12);
@@ -3046,7 +3099,7 @@ function renderBackupReminder() {
 function dismissBackupReminder() {
   settings.backupReminderDismissedAt = todayISO();
   saveSettings();
-  render();
+  scheduleRender({ reason: "backup-reminder-dismiss" });
 }
 
 function exportBackup() {
@@ -3063,7 +3116,7 @@ function exportBackup() {
   settings.backupReminderDismissedAt = "";
   saveSettings();
   suppressChangeTracking = previousSuppress;
-  render();
+  scheduleRender({ reason: "backup-export" });
   showToast(tr("backupExported"));
 }
 
@@ -3215,7 +3268,7 @@ function saveEditedRecord(event) {
 
   saveRecords();
   resetHistoryVisibleCount();
-  render({ animateBalanceFrom: previousBalanceUSD });
+  scheduleRender({ animateBalanceFrom: previousBalanceUSD, reason: "edit-record" });
   playTransactionFeedback("edit");
   closeEditRecord();
   showToast(tr("recordUpdated"));
@@ -3307,7 +3360,7 @@ function importLegacyBackupIntoActiveProfile(data, importedRecords) {
   resetHistoryVisibleCount();
   saveState();
   setPage("home", { render: false });
-  render();
+  scheduleRender({ reason: "import-legacy" });
   showToast(tr("backupImportedProfile", { profile: targetName }));
 }
 
@@ -3339,7 +3392,7 @@ function importProfileAwareBackup(data, importedRecords) {
   resetHistoryVisibleCount();
   saveState();
   setPage("home", { render: false });
-  render();
+  scheduleRender({ reason: "import-profile-aware" });
   showToast(tr("backupImported"));
 }
 
@@ -3390,7 +3443,7 @@ function applyHistoryFilter() {
   resetHistorySelectionState();
   resetHistoryVisibleCount();
   saveState();
-  render();
+  scheduleRender({ reason: "history-filter" });
   closeHistoryFilter();
 }
 
@@ -3403,7 +3456,7 @@ function clearFilters() {
   sortMode = "newest";
   resetHistoryVisibleCount();
   saveState();
-  render();
+  scheduleRender({ reason: "history-filter" });
   closeHistoryFilter();
 }
 
@@ -3459,7 +3512,7 @@ function finishClearEverything() {
   resetHistoryVisibleCount();
   saveState();
   setPage("home", { render: false });
-  render();
+  scheduleRender({ reason: "clear-records" });
   showToast(tr("cleared"));
 }
 
@@ -3582,7 +3635,7 @@ function initEvents() {
     settings.displayCurrency = button.dataset.currency;
     saveSettings();
     saveState();
-    render();
+    scheduleRender({ reason: "currency-switch" });
   }));
 
   $("#languageToggle").addEventListener("click", switchLanguageSmooth);
@@ -3674,7 +3727,7 @@ function initEvents() {
     resetHistorySelectionState();
     resetHistoryVisibleCount();
     saveState();
-    render();
+    scheduleRender({ reason: "history-chip" });
   }));
 
   $("#searchInput").addEventListener("input", event => {
@@ -3682,9 +3735,9 @@ function initEvents() {
     resetHistorySelectionState();
     debouncedHistorySearchRender();
   });
-  $("#fromDateInput").addEventListener("change", event => { fromDate = event.target.value; resetHistorySelectionState(); resetHistoryVisibleCount(); saveState(); render(); });
-  $("#toDateInput").addEventListener("change", event => { toDate = event.target.value; resetHistorySelectionState(); resetHistoryVisibleCount(); saveState(); render(); });
-  $("#sortSelect").addEventListener("change", event => { sortMode = event.target.value; resetHistorySelectionState(); resetHistoryVisibleCount(); saveState(); render(); });
+  $("#fromDateInput").addEventListener("change", event => { fromDate = event.target.value; resetHistorySelectionState(); resetHistoryVisibleCount(); saveState(); scheduleRender({ reason: "history-from-date" }); });
+  $("#toDateInput").addEventListener("change", event => { toDate = event.target.value; resetHistorySelectionState(); resetHistoryVisibleCount(); saveState(); scheduleRender({ reason: "history-to-date" }); });
+  $("#sortSelect").addEventListener("change", event => { sortMode = event.target.value; resetHistorySelectionState(); resetHistoryVisibleCount(); saveState(); scheduleRender({ reason: "history-sort" }); });
   $("#clearFiltersBtn").addEventListener("click", clearFilters);
   $("#openHistoryFilterBtn").addEventListener("click", openHistoryFilter);
   $("#closeHistoryFilterBtn").addEventListener("click", closeHistoryFilter);
@@ -3724,7 +3777,7 @@ function initEvents() {
     settings.themeTemplate = button.dataset.templateChoice;
     saveSettings();
     saveState();
-    render();
+    scheduleRender({ reason: "theme-template" });
     hapticTick(8);
   }));
 
@@ -3732,7 +3785,7 @@ function initEvents() {
     settings.theme = input.value;
     saveSettings();
     saveState();
-    render();
+    scheduleRender({ reason: "display-mode" });
   }));
 
   ["amountInput", "descriptionInput", "dateInput", "noteInput", "categoryInput"].forEach(id => {
@@ -3814,7 +3867,7 @@ function initEvents() {
     if (glassInput) settings.glassIntensity = clampGlassIntensity(glassInput.value);
     saveSettings();
     saveState();
-    render();
+    scheduleRender({ reason: "settings-saved" });
     showToast(tr("settingsSaved"));
   });
   $("#saveBudgetsBtn").addEventListener("click", saveCategoryBudgets);
@@ -3955,7 +4008,7 @@ function boot() {
 
   const state = safeParse(STATE_KEY, null);
   if (state?.activePage && document.getElementById(`page-${state.activePage}`)) {
-    setPage(state.activePage);
+    setPage(state.activePage, { render: false });
   }
 
   render({ translate: true });

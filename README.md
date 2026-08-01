@@ -4,13 +4,13 @@ DollarTracker is a local-first USD/KHR money tracker that runs as a PWA today an
 
 ## Current milestone
 
-`v4.0.0-alpha.10.2 — Clean Slider Hotfix`
+`v4.0.0-alpha.11 — Render Engine Foundation`
 
-- Rebuilds the Glass Intensity slider into a cleaner thin-track control.
-- Removes the visible left/right slider end caps shown on iPhone.
-- Makes the active Cooler/Balanced/Luxe label match the actual value.
-- Batches slider repaint work with `requestAnimationFrame` while dragging.
-- Keeps the alpha.10 iPhone balance count animation and transaction feedback.
+- Adds a central render scheduler to batch common UI updates into the next animation frame.
+- Preserves balance count animations while scheduled transaction renders wait for the browser's next paint.
+- Reuses current-month data across monthly totals, budgets, category chart, and top-category rendering.
+- Skips repeated fixed text writes when the value has not changed.
+- Keeps the alpha.10.2 slider design and alpha.10 transaction feedback.
 - Keeps Liquid Glass visuals, storage, backup format, and calculations untouched.
 
 ## Live app path
