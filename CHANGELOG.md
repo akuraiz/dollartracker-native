@@ -1,5 +1,25 @@
 # Changelog
 
+## 4.0.0-alpha.10.2 — Clean Slider Hotfix
+
+- Rebuilt the Glass Intensity slider into a cleaner thin-track control.
+- Removed the visible left/right slider shell caps that looked like extra circles on iPhone.
+- Reduced slider-only shadow and background layers to lower unnecessary paint cost.
+- Added active Cooler/Balanced/Luxe label syncing so Luxe values no longer highlight Balanced.
+- Batched slider repaint work with `requestAnimationFrame` while dragging.
+- Updated `APP_VERSION`, `package.json`, service-worker cache, and cache-busting query strings to `4.0.0-alpha.10.2`.
+- Kept the alpha.10 iPhone balance count animation and transaction feedback.
+- Kept Liquid Glass visuals, theme signatures, storage, backup format, and calculations untouched.
+
+## 4.0.0-alpha.10 — Phase 2 Transaction Feedback
+
+- Restored the main balance count animation on iPhone/thermal-lite devices while still respecting the system Reduce Motion setting.
+- Added a lightweight transaction feedback pulse after Add, Quick Add, Edit, and Delete.
+- Fixed Delete so it captures the previous balance and animates to the new balance instead of doing a plain render.
+- Updated cache-busting query strings for `styles.css` and `app.js` to `4.0.0-alpha.10`.
+- Bumped app, package, and service-worker cache versions to `4.0.0-alpha.10`.
+- Kept Liquid Glass visuals, theme signatures, storage, backup format, and calculations untouched.
+
 ## 4.0.0-alpha.5
 
 - Restored the Christmas theme toward the warmer, more alive old Liquid Glass style.

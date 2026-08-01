@@ -1,7 +1,7 @@
 
 "use strict";
 
-const APP_VERSION = "4.0.0-alpha.7";
+const APP_VERSION = "4.0.0-alpha.10.2";
 const RECORD_KEY = "dollarTracker.records.v3";
 const SETTINGS_KEY = "dollarTracker.settings.v3";
 const STATE_KEY = "dollarTracker.state.v3";
@@ -1393,6 +1393,25 @@ const debouncedGlassSettingsSave = debounce(() => {
   saveState();
 }, 420);
 
+let glassIntensityFrame = 0;
+function scheduleGlassIntensityPaint() {
+  if (glassIntensityFrame) return;
+  glassIntensityFrame = window.requestAnimationFrame(() => {
+    glassIntensityFrame = 0;
+    applyDocumentSettings();
+    updateGlassIntensityControl();
+  });
+}
+
+function flushGlassIntensityPaint() {
+  if (glassIntensityFrame) {
+    window.cancelAnimationFrame(glassIntensityFrame);
+    glassIntensityFrame = 0;
+  }
+  applyDocumentSettings();
+  updateGlassIntensityControl();
+}
+
 const debouncedHistorySearchRender = debounce(() => {
   resetHistoryVisibleCount();
   saveState();
@@ -2175,34 +2194,59 @@ function easeOutCubic(t) {
   return 1 - Math.pow(1 - t, 3);
 }
 
+function shouldReduceBalanceAnimation() {
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches || false;
+}
+
+function playTransactionFeedback(kind = "saved") {
+  const body = document.body;
+  if (!body) return;
+
+  clearTimeout(playTransactionFeedback.timer);
+  body.classList.remove("transaction-feedback", "transaction-feedback-in", "transaction-feedback-out", "transaction-feedback-edit", "transaction-feedback-delete");
+
+  requestAnimationFrame(() => {
+    body.classList.add("transaction-feedback", `transaction-feedback-${kind}`);
+    playTransactionFeedback.timer = setTimeout(() => {
+      body.classList.remove("transaction-feedback", "transaction-feedback-in", "transaction-feedback-out", "transaction-feedback-edit", "transaction-feedback-delete");
+    }, 760);
+  });
+}
+
 function animateMoneyText(element, fromUSD, toUSD, duration = 720) {
   if (!element) return;
 
-  if (isReducedMotion()) {
+  if (shouldReduceBalanceAnimation()) {
     element.textContent = formatMoneyFromUSD(toUSD);
     return;
   }
 
   if (balanceAnimationFrame) cancelAnimationFrame(balanceAnimationFrame);
 
-  const start = performance.now();
   const currency = settings.displayCurrency;
+  const startValue = Number.isFinite(fromUSD) ? fromUSD : toUSD;
+  const endValue = Number.isFinite(toUSD) ? toUSD : startValue;
+  const start = performance.now();
 
+  element.textContent = formatMoneyFromUSD(startValue, currency);
   element.classList.remove("balance-bump");
-  void element.offsetWidth;
-  element.classList.add("balance-bump");
+
+  requestAnimationFrame(() => {
+    element.classList.add("balance-bump");
+  });
 
   function frame(now) {
     const progress = Math.min((now - start) / duration, 1);
     const eased = easeOutCubic(progress);
-    const current = fromUSD + (toUSD - fromUSD) * eased;
+    const current = startValue + (endValue - startValue) * eased;
     element.textContent = formatMoneyFromUSD(current, currency);
 
     if (progress < 1) {
       balanceAnimationFrame = requestAnimationFrame(frame);
     } else {
-      element.textContent = formatMoneyFromUSD(toUSD, currency);
+      element.textContent = formatMoneyFromUSD(endValue, currency);
       balanceAnimationFrame = null;
+      setTimeout(() => element.classList.remove("balance-bump"), 80);
     }
   }
 
@@ -2313,13 +2357,27 @@ function updateGlassIntensityControl() {
   const input = $("#glassIntensityInput");
   const value = $("#glassIntensityValue");
   const fill = $("#glassIntensityFill");
+  const shell = $(".glass-range-shell");
+  const labels = $$(".glass-range-labels span");
   const intensity = clampGlassIntensity(settings.glassIntensity);
+  const level = glassLevelForIntensity(intensity);
+  const label = glassLabelForIntensity(intensity);
+  const progress = (intensity / 100).toFixed(2);
   if (input) {
     input.value = String(intensity);
-    input.setAttribute("aria-valuetext", `${glassLabelForIntensity(intensity)} · ${intensity}%`);
+    input.setAttribute("aria-valuetext", `${label} · ${intensity}%`);
   }
-  if (value) value.textContent = `${glassLabelForIntensity(intensity)} · ${intensity}%`;
-  if (fill) fill.style.width = `${intensity}%`;
+  if (value) value.textContent = `${label} · ${intensity}%`;
+  if (shell) {
+    shell.style.setProperty("--glass-progress", progress);
+    shell.dataset.glassLevel = level;
+  }
+  if (fill) {
+    fill.style.setProperty("--glass-progress", progress);
+    fill.style.width = "";
+  }
+  const activeIndex = level === "cool" ? 0 : level === "luxe" ? 2 : 1;
+  labels.forEach((item, index) => item.classList.toggle("is-active", index === activeIndex));
 }
 
 function renderSettingsPage() {
@@ -2492,6 +2550,7 @@ function addRecord(event) {
   saveState();
   setPage("home", { render: false });
   render({ animateBalanceFrom: previousBalanceUSD });
+  playTransactionFeedback(type === "In" ? "in" : "out");
   showToast(tr("recordSaved"));
   hapticTick(12);
 }
@@ -2504,16 +2563,20 @@ function addRecord(event) {
 
 function deleteRecord(id) {
   const record = records.find(r => r.id === id);
-    if (!record) return;
-    const amountText = formatRecordOriginalMoney(record).replace("-", "");
-    if (!confirm(`${tr("deleteConfirm")}\n\n${record.type === "In" ? tr("in") : tr("out")} ${amountText} — ${record.description || tr("noDescription")}`)) return;
-    records = records.filter(r => r.id !== id);
-    selectedRecordIds.delete(id);
-    saveRecords();
-    resetHistoryVisibleCount();
-    render();
-    showToast(tr("recordDeleted"));
-    hapticTick(14);
+  if (!record) return;
+
+  const amountText = formatRecordOriginalMoney(record).replace("-", "");
+  if (!confirm(`${tr("deleteConfirm")}\n\n${record.type === "In" ? tr("in") : tr("out")} ${amountText} — ${record.description || tr("noDescription")}`)) return;
+
+  const previousBalanceUSD = totals().balanceUSD;
+  records = records.filter(r => r.id !== id);
+  selectedRecordIds.delete(id);
+  saveRecords();
+  resetHistoryVisibleCount();
+  render({ animateBalanceFrom: previousBalanceUSD });
+  playTransactionFeedback("delete");
+  showToast(tr("recordDeleted"));
+  hapticTick(14);
 }
 
 function copyTextFallback(text) {
@@ -2945,6 +3008,7 @@ function saveQuickAddRecord(event) {
   closeQuickAdd();
   setPage("home", { render: false });
   render({ animateBalanceFrom: previousBalanceUSD });
+  playTransactionFeedback(type === "In" ? "in" : "out");
   showToast(tr("recordSaved"));
   hapticTick(12);
 }
@@ -3152,8 +3216,10 @@ function saveEditedRecord(event) {
   saveRecords();
   resetHistoryVisibleCount();
   render({ animateBalanceFrom: previousBalanceUSD });
+  playTransactionFeedback("edit");
   closeEditRecord();
   showToast(tr("recordUpdated"));
+  hapticTick(10);
 }
 
 
@@ -3635,14 +3701,21 @@ function initEvents() {
   $("#clearSelectionBtn")?.addEventListener("click", clearSelectedRecords);
 
   const glassIntensityInput = $("#glassIntensityInput");
+  const glassRangeShell = $(".glass-range-shell");
+  const stopGlassDrag = () => glassRangeShell?.classList.remove("is-dragging");
+  glassIntensityInput?.addEventListener("pointerdown", () => glassRangeShell?.classList.add("is-dragging"));
+  glassIntensityInput?.addEventListener("pointerup", stopGlassDrag);
+  glassIntensityInput?.addEventListener("pointercancel", stopGlassDrag);
+  glassIntensityInput?.addEventListener("touchend", stopGlassDrag, { passive: true });
   glassIntensityInput?.addEventListener("input", () => {
     settings.glassIntensity = clampGlassIntensity(glassIntensityInput.value);
-    applyDocumentSettings();
-    updateGlassIntensityControl();
+    scheduleGlassIntensityPaint();
     debouncedGlassSettingsSave();
   });
   glassIntensityInput?.addEventListener("change", () => {
+    stopGlassDrag();
     settings.glassIntensity = clampGlassIntensity(glassIntensityInput.value);
+    flushGlassIntensityPaint();
     debouncedGlassSettingsSave.flush?.();
     hapticTick(6);
   });
