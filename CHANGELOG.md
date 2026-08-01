@@ -1,35 +1,5 @@
 # Changelog
 
-## 4.0.0-alpha.11 — Render Engine Foundation
-
-- Added a central `scheduleRender()` queue so transaction, settings, history filter, import/export, and profile changes can batch their DOM updates into the next animation frame.
-- Added safe render-option merging so balance count animations keep the correct starting balance even when several UI updates happen together.
-- Added a tiny cached-ID helper for repeated fixed text updates and skipped unchanged text writes.
-- Reused the same current-month record set across monthly totals, budgets, chart, and top-category rendering to reduce repeated filtering.
-- Added optional development render timing logs behind `localStorage.setItem("dollarTracker.debugPerf", "1")`.
-- Updated `APP_VERSION`, `package.json`, service-worker cache, and cache-busting query strings to `4.0.0-alpha.11`.
-- Kept Liquid Glass visuals, slider design, theme signatures, storage, backup format, and calculations untouched.
-
-## 4.0.0-alpha.10.2 — Clean Slider Hotfix
-
-- Rebuilt the Glass Intensity slider into a cleaner thin-track control.
-- Removed the visible left/right slider shell caps that looked like extra circles on iPhone.
-- Reduced slider-only shadow and background layers to lower unnecessary paint cost.
-- Added active Cooler/Balanced/Luxe label syncing so Luxe values no longer highlight Balanced.
-- Batched slider repaint work with `requestAnimationFrame` while dragging.
-- Updated `APP_VERSION`, `package.json`, service-worker cache, and cache-busting query strings to `4.0.0-alpha.10.2`.
-- Kept the alpha.10 iPhone balance count animation and transaction feedback.
-- Kept Liquid Glass visuals, theme signatures, storage, backup format, and calculations untouched.
-
-## 4.0.0-alpha.10 — Phase 2 Transaction Feedback
-
-- Restored the main balance count animation on iPhone/thermal-lite devices while still respecting the system Reduce Motion setting.
-- Added a lightweight transaction feedback pulse after Add, Quick Add, Edit, and Delete.
-- Fixed Delete so it captures the previous balance and animates to the new balance instead of doing a plain render.
-- Updated cache-busting query strings for `styles.css` and `app.js` to `4.0.0-alpha.10`.
-- Bumped app, package, and service-worker cache versions to `4.0.0-alpha.10`.
-- Kept Liquid Glass visuals, theme signatures, storage, backup format, and calculations untouched.
-
 ## 4.0.0-alpha.5
 
 - Restored the Christmas theme toward the warmer, more alive old Liquid Glass style.
