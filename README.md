@@ -4,13 +4,29 @@ DollarTracker is a local-first USD/KHR money tracker that runs as a PWA today an
 
 ## Current milestone
 
-`v4.0.0-alpha.5 — Clean Core`
+`v4.0.0-alpha.10 — Phase 2 Transaction Feedback`
 
-- Preserves profiles, records, calculator, themes, backups, and local-first behavior.
-- Fixes the separate grey block inside the dark-mode amount field.
-- Positions the floating Save button above the iOS keyboard and accessory bar using `visualViewport`.
-- Establishes a clean Git repository and Capacitor configuration.
-- Does not generate the `ios/` project yet because iOS compilation requires macOS and Xcode.
+- Restores the main balance count animation on iPhone/thermal-lite devices after adding money.
+- Adds focused transaction feedback for Add, Quick Add, Edit, and Delete without reducing Liquid Glass visuals.
+- Fixes Delete so the balance can animate from the previous value instead of jumping instantly.
+- Keeps the slider polish from alpha.9 and the root `index.html` redirect for GitHub Pages.
+- Keeps the native-ready `www/` app structure for Capacitor later.
+
+## Live app path
+
+The actual app files are in `www/`.
+
+For GitHub Pages, the working app path is usually:
+
+```text
+https://akuraiz.github.io/dollartracker-native/www/
+```
+
+This package also includes a root redirect, so if GitHub Pages serves the repo root, this can forward to the app:
+
+```text
+https://akuraiz.github.io/dollartracker-native/
+```
 
 ## Windows setup
 
@@ -20,16 +36,24 @@ DollarTracker is a local-first USD/KHR money tracker that runs as a PWA today an
 4. Run:
 
 ```powershell
-npm install
-npm run verify
-npm start
+npm.cmd install
+npm.cmd run verify
+npm.cmd start
 ```
 
-Open `http://localhost:4173`.
+Open `http://localhost:4173` on the PC.
 
 ## Everyday workflow
 
-Pull → edit → test → `npm run verify` → commit → push.
+```text
+Copy update into repo
+→ npm.cmd run verify
+→ test locally
+→ commit
+→ push
+→ GitHub Actions deploys
+→ test on iPhone
+```
 
 ## iPhone native build later
 
@@ -43,20 +67,3 @@ npm run ios:add
 npm run cap:sync
 npm run ios:open
 ```
-
-
-### v4.0.0-alpha.5
-
-Adds a graphics-style Glass Intensity slider in Settings so the app can shift between a cooler interface and the older premium Liquid Glass look. Higher settings can use more GPU and may heat iPhones faster.
-
-
-### v4.0.0-alpha.5
-
-- Christmas Luxe theme revived with warmer green/gold glass.
-- Glass Intensity now affects both dark and light mode.
-- Luxe mode looks closer to the old beautiful version while cooler levels stay easier on the phone.
-
-
-## v4.0.0-alpha.5 Theme-Colored Liquid Glass Engine
-
-Dark and light themes now keep their own color personality while the Glass Intensity slider changes blur, glow, saturation, and depth. Christmas Luxe is tuned back toward the warm green/gold old favorite look.

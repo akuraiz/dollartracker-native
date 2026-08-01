@@ -3971,3 +3971,310 @@ html[data-template=christmas] .theme-signature > span{
   html[data-template=ocean] .theme-signature{width:130px !important;height:89px !important;right:4px !important;top:9px !important;}
   html[data-template=pearl] .theme-signature{width:120px !important;height:88px !important;right:5px !important;top:9px !important;}
 }
+
+/* ===========================================================================
+   v4.0.0-alpha.9 — Focus Phase 1: Smooth no-overlap graphics slider
+   Scope: Settings → Glass Intensity control only.
+=========================================================================== */
+.glass-intensity-control{
+  gap:14px!important;
+  padding:16px!important;
+  overflow:hidden;
+  border-radius:26px!important;
+  background:
+    linear-gradient(135deg, rgb(var(--dt-theme-highlight-rgb) / .12), transparent 42%),
+    rgb(var(--dt-theme-surface-rgb) / .18)!important;
+  border:1px solid color-mix(in srgb, rgb(var(--dt-theme-highlight-rgb)) 18%, rgba(255,255,255,.16))!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    0 18px 42px rgb(0 0 0 / calc(var(--dt-glass-shadow-a) * .58))!important;
+}
+
+html[data-theme=light] .glass-intensity-control{
+  background:
+    linear-gradient(135deg, rgb(var(--dt-theme-highlight-rgb) / .14), transparent 44%),
+    rgb(var(--dt-theme-light-surface-rgb) / .76)!important;
+  border-color:color-mix(in srgb, rgb(var(--dt-theme-highlight-rgb)) 18%, rgba(255,255,255,.78))!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.78),
+    0 18px 38px rgb(15 23 42 / calc(var(--dt-light-shadow-a) * .48))!important;
+}
+
+.glass-control-head{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px!important;
+  min-width:0;
+}
+
+.glass-control-head .setting-label{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.glass-control-head strong{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:30px;
+  max-width:100%;
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:12px!important;
+  letter-spacing:.01em;
+  white-space:nowrap;
+  background:linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.08));
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25), 0 10px 24px rgba(0,0,0,.16);
+}
+
+html[data-theme=light] .glass-control-head strong{
+  background:linear-gradient(135deg, rgba(255,255,255,.88), rgba(255,255,255,.52));
+  border-color:rgba(255,255,255,.78);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95), 0 10px 20px rgba(15,23,42,.08);
+}
+
+.glass-range-shell{
+  --glass-progress:.84;
+  position:relative!important;
+  height:52px!important;
+  display:block!important;
+  border-radius:22px;
+  isolation:isolate;
+  overflow:visible;
+  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+html[data-theme=light] .glass-range-shell{
+  background:linear-gradient(180deg, rgba(255,255,255,.76), rgba(255,255,255,.38));
+  border-color:rgba(255,255,255,.62);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.82);
+}
+
+.glass-range-shell:before{
+  content:""!important;
+  position:absolute!important;
+  z-index:1;
+  left:16px!important;
+  right:16px!important;
+  top:50%;
+  height:13px!important;
+  transform:translateY(-50%);
+  border-radius:999px!important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.16), rgba(255,255,255,.08)),
+    rgb(var(--dt-theme-surface-rgb) / .30)!important;
+  border:1px solid color-mix(in srgb, rgb(var(--dt-theme-highlight-rgb)) 20%, transparent)!important;
+  box-shadow:
+    inset 0 1px 2px rgba(0,0,0,.28),
+    inset 0 -1px 0 rgba(255,255,255,.08)!important;
+}
+
+html[data-theme=light] .glass-range-shell:before{
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.30), rgba(255,255,255,.68), rgba(255,255,255,.30)),
+    rgb(var(--dt-theme-light-surface-rgb) / .86)!important;
+  border-color:color-mix(in srgb, rgb(var(--dt-theme-highlight-rgb)) 20%, rgba(255,255,255,.80))!important;
+  box-shadow:inset 0 1px 2px rgba(15,23,42,.12), inset 0 -1px 0 rgba(255,255,255,.78)!important;
+}
+
+.glass-range-shell:after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  left:16px;
+  right:16px;
+  top:50%;
+  height:13px;
+  transform:translateY(-50%);
+  border-radius:999px;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 0% 50%, rgba(255,255,255,.72) 0 2px, transparent 3px),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.62) 0 2px, transparent 3px),
+    radial-gradient(circle at 100% 50%, rgba(255,255,255,.72) 0 2px, transparent 3px);
+  opacity:.55;
+}
+
+.glass-range-fill{
+  position:absolute!important;
+  z-index:3;
+  left:16px!important;
+  top:50%;
+  height:13px!important;
+  width:calc((100% - 32px) * var(--glass-progress, .84))!important;
+  transform:translateY(-50%);
+  border-radius:999px!important;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg, var(--accent-1), var(--accent-2)),
+    rgb(var(--dt-theme-highlight-rgb) / .72)!important;
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--accent-1) 36%, transparent),
+    inset 0 1px 0 rgba(255,255,255,.40)!important;
+  transition:width .16s cubic-bezier(.2,.8,.2,1), filter .16s ease;
+}
+
+.glass-range-shell.is-dragging .glass-range-fill{
+  transition:none;
+  filter:saturate(1.08) brightness(1.05);
+}
+
+.glass-range{
+  position:absolute!important;
+  z-index:5;
+  left:16px;
+  right:16px;
+  top:0;
+  bottom:0;
+  width:calc(100% - 32px)!important;
+  height:52px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  appearance:none;
+  -webkit-appearance:none;
+  cursor:pointer;
+  touch-action:pan-y;
+}
+
+.glass-range::-webkit-slider-runnable-track{
+  height:13px!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:999px!important;
+}
+
+.glass-range::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:30px!important;
+  height:30px!important;
+  margin-top:-8.5px!important;
+  border-radius:999px!important;
+  background:
+    radial-gradient(circle at 32% 28%, #fff 0 14%, rgba(255,255,255,.88) 15% 35%, rgba(255,255,255,.58) 65%),
+    linear-gradient(135deg,#fff,rgba(255,255,255,.70))!important;
+  border:1px solid rgba(255,255,255,.72)!important;
+  box-shadow:
+    0 10px 22px rgba(0,0,0,.28),
+    0 0 0 6px color-mix(in srgb, var(--accent-1) 12%, transparent),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+  transition:transform .12s ease, box-shadow .16s ease;
+}
+
+.glass-range:active::-webkit-slider-thumb{
+  transform:scale(1.06);
+  box-shadow:
+    0 12px 26px rgba(0,0,0,.30),
+    0 0 0 8px color-mix(in srgb, var(--accent-1) 18%, transparent),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+
+.glass-range::-moz-range-track{
+  height:13px!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:999px!important;
+}
+
+.glass-range::-moz-range-thumb{
+  width:30px!important;
+  height:30px!important;
+  border-radius:999px!important;
+  background:linear-gradient(135deg,#fff,rgba(255,255,255,.70))!important;
+  border:1px solid rgba(255,255,255,.72)!important;
+  box-shadow:0 10px 22px rgba(0,0,0,.28), 0 0 0 6px color-mix(in srgb, var(--accent-1) 12%, transparent), inset 0 1px 0 rgba(255,255,255,.95)!important;
+  transition:transform .12s ease, box-shadow .16s ease;
+}
+
+.glass-range:active::-moz-range-thumb{transform:scale(1.06)}
+
+.glass-range-labels{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:-2px;
+  font-size:10px!important;
+  letter-spacing:.075em!important;
+  line-height:1.2;
+}
+
+.glass-range-labels span{
+  min-width:0;
+  padding:7px 8px;
+  border-radius:999px;
+  text-align:center!important;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.09);
+}
+
+html[data-theme=light] .glass-range-labels span{
+  background:rgba(255,255,255,.56);
+  border-color:rgba(255,255,255,.62);
+}
+
+.glass-range-labels span:nth-child(2){
+  color:var(--text);
+  background:color-mix(in srgb, var(--accent-1) 13%, rgba(255,255,255,.06));
+  border-color:color-mix(in srgb, var(--accent-1) 18%, rgba(255,255,255,.10));
+}
+
+@media (max-width:380px){
+  .glass-intensity-control{padding:14px!important;border-radius:24px!important}
+  .glass-control-head{grid-template-columns:1fr;align-items:start}
+  .glass-control-head strong{justify-self:start;max-width:100%}
+  .glass-range-shell{height:50px!important;border-radius:20px}
+  .glass-range{height:50px!important}
+  .glass-range-labels{gap:6px;font-size:9px!important;letter-spacing:.055em!important}
+  .glass-range-labels span{padding:7px 6px}
+}
+
+/* ---------------------------------------------------------------------------
+   v4.0.0-alpha.10 — Phase 2 Transaction Feedback
+   Keeps the full Liquid Glass look, but lets the balance counter animate on
+   iPhone/thermal-lite devices after Add, Quick Add, Edit, and Delete.
+--------------------------------------------------------------------------- */
+html.thermal-lite #homeBalance.balance-bump{
+  animation:balanceBump .72s cubic-bezier(.22,1,.36,1)!important;
+  text-shadow:0 0 24px color-mix(in srgb,var(--accent-1) 42%,transparent)!important;
+  will-change:transform,opacity!important;
+}
+
+body.transaction-feedback .balance-hero{
+  animation:transactionCommit .62s cubic-bezier(.22,1,.36,1) both;
+  will-change:transform;
+}
+
+@keyframes transactionCommit{
+  0%{transform:translateY(0) scale(1)}
+  38%{transform:translateY(-2px) scale(1.006)}
+  100%{transform:translateY(0) scale(1)}
+}
+
+body.transaction-feedback-in #homeBalance.balance-bump,
+body.transaction-feedback-edit #homeBalance.balance-bump{
+  text-shadow:0 0 26px color-mix(in srgb,var(--accent-2) 46%,transparent)!important;
+}
+
+body.transaction-feedback-out #homeBalance.balance-bump,
+body.transaction-feedback-delete #homeBalance.balance-bump{
+  text-shadow:0 0 26px color-mix(in srgb,var(--accent-1) 42%,transparent)!important;
+}
+
+@media (prefers-reduced-motion:reduce){
+  html.thermal-lite #homeBalance.balance-bump,
+  body.transaction-feedback .balance-hero{
+    animation:none!important;
+    transform:none!important;
+    text-shadow:none!important;
+  }
+}
